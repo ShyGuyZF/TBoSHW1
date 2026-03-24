@@ -1,0 +1,3333 @@
+/* ===== CSS ПЕРЕМЕННЫЕ ДЛЯ СИСТЕМЫ ТЕМ ===== */
+/* ===== 1. БАЗОВАЯ ТЕМА АМЕГА ===== */
+:root {
+    /* Основные цвета */
+    --color-primary: #64ffda; /* Основной акцентный цвет (неоновый зелёный) */
+    --color-secondary: #0a192f; /* Основной тёмный фон */
+    --color-accent: #ff6b6b; /* Красный акцент */
+    --color-highlight: #00bfff; /* Синий акцент */
+    /* Фоны */
+    --color-background: #0a192f; /* Основной фон страницы */
+    --color-surface: #112240; /* Поверхности (карточки, панели) */
+    --color-surface-dark: #0a192f; /* Тёмные поверхности */
+    --color-surface-light: rgba(17, 34, 64, 0.9); /* Полупрозрачные поверхности */
+    /* Текст */
+    --color-text: #ccd6f6; /* Основной текст */
+    --color-text-light: #8892b0; /* Второстепенный текст */
+    --color-text-inverse: #ffffff; /* Текст на тёмном фоне */
+    --color-text-accent: #64ffda; /* Акцентный текст */
+    /* Границы и тени */
+    --color-border: #64ffda; /* Основные границы */
+    --color-border-light: rgba(100, 255, 218, 0.3); /* Светлые границы */
+    --color-shadow: rgba(0, 0, 0, 0.3); /* Тени */
+    --color-glow: rgba(100, 255, 218, 0.5); /* Свечение */
+    /* Статусы */
+    --color-success: #00ff88; /* Успех */
+    --color-warning: #ffaa00; /* Предупреждение */
+    --color-danger: #ff5555; /* Опасность */
+    --color-info: #00bfff; /* Информация */
+    /* Градиенты */
+    --gradient-primary: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+    --gradient-accent: linear-gradient(90deg, #64ffda, #00bfff, #64ffda);
+    --gradient-header: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+    /* Фоновая GIF */
+    --bg-gif: url('../images/фон.gif');
+    /* Плавные переходы */
+    --transition-speed: 0.3s;
+    --transition-timing: ease;
+}
+
+/* ===== 2. ПЕРЕОПРЕДЕЛЕНИЕ ВАШИХ СТИЛЕЙ С ИСПОЛЬЗОВАНИЕМ ПЕРЕМЕННЫХ ===== */
+/* ===== ОБНУЛЕНИЕ СТИЛЕЙ ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ ===== */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* ===== ШАПКА С ЛОГОТИПОМ И ЦИТАТОЙ ===== */
+.header {
+    background: var(--gradient-header);
+    padding: 1.5rem 2rem;
+    border-bottom: 3px solid var(--color-primary);
+    text-align: center;
+    box-shadow: 0 4px 20px var(--color-shadow);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.logo-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 20px var(--color-glow);
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+
+    .logo-image:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px var(--color-glow);
+    }
+
+.logo-text {
+    color: var(--color-primary);
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px var(--color-glow);
+    letter-spacing: 2px;
+}
+
+/* ===== СТИЛИ ДЛЯ ЦИТАТЫ И ПОДПИСИ ===== */
+.quote-container {
+    margin-top: 0.5rem;
+}
+
+.quote {
+    color: var(--color-primary);
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 0 8px var(--color-glow);
+    letter-spacing: 0.5px;
+}
+
+.signature {
+    color: var(--color-text-light);
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* ===== ОСНОВНОЕ СОДЕРЖИМОЕ ===== */
+.main-content {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 200px);
+}
+
+/* ===== БОКОВАЯ ПАНЕЛЬ С КНОПКАМИ ===== */
+.sidebar {
+    width: 280px;
+    background-color: var(--color-surface);
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    overflow-y: auto;
+    border-right: 2px solid var(--color-background);
+}
+
+.sidebar-btn {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    text-align: left;
+    font-weight: bold;
+    transition: all var(--transition-speed) var(--transition-timing);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+    .sidebar-btn:hover {
+        background-color: var(--color-primary);
+        color: var(--color-secondary);
+        transform: translateX(5px);
+        box-shadow: 0 0 15px var(--color-glow);
+    }
+
+    .sidebar-btn.active {
+        background-color: var(--color-primary);
+        color: var(--color-secondary);
+        transform: translateX(5px);
+        box-shadow: 0 0 15px var(--color-glow);
+    }
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    margin: 1rem 0;
+    opacity: 0.6;
+}
+
+/* ===== ОБЛАСТЬ КОНТЕНТА ===== */
+.content-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Фон по умолчанию (GIF) */
+.gif-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.background-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    filter: brightness(0.8) contrast(1.2);
+}
+
+/* Контент существ */
+.creatures-content {
+    position: relative;
+    z-index: 2;
+    background-color: var(--color-surface-light);
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    overflow-y: auto;
+    display: none;
+}
+
+    .creatures-content.active-content {
+        display: block;
+    }
+
+/* ===== СТИЛИ ДЛЯ ПАНЕЛИ ФИЛЬТРОВ ===== */
+.filters-header {
+    margin-bottom: 2rem;
+}
+
+.filters-panel {
+    background: var(--color-surface-light);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.search-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex: 1;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-size: 1rem;
+    min-width: 250px;
+}
+
+    .search-input::placeholder {
+        color: var(--color-text-light);
+    }
+
+    .search-input:focus {
+        outline: none;
+        box-shadow: 0 0 10px var(--color-glow);
+    }
+
+.filter-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-select {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-size: 1rem;
+    min-width: 150px;
+}
+
+.filter-btn {
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+
+    .filter-btn:hover {
+        background-color: var(--color-primary);
+        color: var(--color-secondary);
+        transform: translateY(-2px);
+    }
+
+    .filter-btn.reset {
+        background-color: var(--color-surface);
+        border-color: var(--color-accent);
+    }
+
+        .filter-btn.reset:hover {
+            background-color: var(--color-accent);
+            color: var(--color-secondary);
+        }
+
+/* ===== СЕТКА СУЩЕСТВ ===== */
+.creatures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.creature-card {
+    background: var(--gradient-primary);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-timing);
+    position: relative;
+    overflow: hidden;
+}
+
+    .creature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-accent);
+        opacity: 0;
+        transition: opacity var(--transition-speed) var(--transition-timing);
+    }
+
+    .creature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px var(--color-glow);
+    }
+
+        .creature-card:hover::before {
+            opacity: 1;
+        }
+
+/* Стили для номеров существ */
+.creature-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--color-surface-light);
+    color: var(--color-primary);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 1px solid var(--color-border);
+    z-index: 2;
+}
+
+.creature-image {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+    .creature-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-speed) var(--transition-timing);
+    }
+
+.creature-card:hover .creature-image img {
+    transform: scale(1.05);
+}
+
+.creature-info {
+    text-align: center;
+}
+
+.creature-name {
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+/* Стили для класса существа */
+.creature-class {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+}
+
+.class-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.class-name {
+    font-style: italic;
+}
+
+.creature-planet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+}
+
+.planet-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.planet-name {
+    height: 15px;
+    font-style: italic;
+}
+
+/* Стили для ссылок существ */
+.creature-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.creature-card:hover .creature-link {
+    color: inherit;
+}
+
+/* Заголовки в контенте существ */
+.creatures-content h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    text-shadow: 0 0 10px var(--color-glow);
+}
+
+.content-description {
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* ===== СТИЛИ ДЛЯ ПАГИНАЦИИ ===== */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: var(--color-surface-light);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+}
+
+.pagination-btn {
+    padding: 1rem 2rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all var(--transition-speed) var(--transition-timing);
+    min-width: 120px;
+    justify-content: center;
+}
+
+    .pagination-btn:hover:not(:disabled) {
+        background-color: var(--color-primary);
+        color: var(--color-secondary);
+        transform: translateY(-2px);
+    }
+
+    .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: var(--color-text-light);
+    }
+
+.page-info {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    min-width: 200px;
+}
+
+#current-range {
+    color: var(--color-text);
+}
+
+#total-creatures {
+    color: var(--color-text-light);
+}
+
+/* ===== СТИЛИ ДЛЯ КОНТЕНТА ПЛАНЕТ, ФАУНЫ, РЕСУРСОВ ===== */
+/* Все они используют те же переменные, что и существа */
+.planets-content,
+.fauna-content,
+.resources-content {
+    position: relative;
+    z-index: 2;
+    background-color: var(--color-surface-light);
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    overflow-y: auto;
+    display: none;
+}
+
+    .planets-content.active-content,
+    .fauna-content.active-content,
+    .resources-content.active-content {
+        display: block;
+    }
+
+.planets-grid,
+.fauna-grid,
+.creatures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.6rem;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    justify-content: start;
+    gap: 1.6rem;
+}
+
+
+
+.planet-card,
+.fauna-card,
+.resource-card {
+    background: var(--gradient-primary);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-timing);
+    position: relative;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 3.5rem; 
+}
+
+    .planet-card::before,
+    .fauna-card::before,
+    .resource-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-accent);
+        opacity: 0;
+        transition: opacity var(--transition-speed) var(--transition-timing);
+    }
+
+    .planet-card:hover,
+    .fauna-card:hover,
+    .resource-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px var(--color-glow);
+    }
+
+        .planet-card:hover::before,
+        .fauna-card:hover::before,
+        .resource-card:hover::before {
+            opacity: 1;
+        }
+
+.planet-number,
+.fauna-number,
+.resource-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--color-surface-light);
+    color: var(--color-primary);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 1px solid var(--color-border);
+    z-index: 2;
+}
+
+.planet-image,
+.fauna-image,
+.resource-image {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+    .planet-image img,
+    .fauna-image img,
+    .resource-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-speed) var(--transition-timing);
+    }
+
+.planet-card:hover .planet-image img,
+.fauna-card:hover .fauna-image img,
+.resource-card:hover .resource-image img {
+    transform: scale(1.05);
+}
+
+.planet-info,
+.fauna-info,
+.resource-info {
+    text-align: center;
+}
+
+.planet-name,
+.fauna-name,
+.resource-name {
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+}
+
+/* Остальные стили оставляем как есть, но заменяем цвета на переменные */
+
+/* ===== 3. СТИЛИ ДЛЯ ПАНЕЛИ ВЫБОРА ТЕМ ===== */
+.theme-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 380px;
+    height: 100vh;
+    background: var(--color-surface);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+}
+
+    .theme-panel.active {
+        right: 0;
+    }
+
+.theme-panel-header {
+    padding: 20px;
+    background: var(--color-primary);
+    color: var(--color-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .theme-panel-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--color-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+    .close-btn:hover {
+        background-color: rgba(0,0,0,0.1);
+    }
+
+.theme-panel-content {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.theme-section {
+    margin-bottom: 30px;
+}
+
+    .theme-section h4 {
+        color: var(--color-primary);
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.theme-option {
+    border: 2px solid var(--color-border-light);
+    border-radius: 8px;
+    padding: 10px;
+    background: var(--color-background);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+    .theme-option:hover {
+        border-color: var(--color-primary);
+        transform: translateY(-2px);
+    }
+
+    .theme-option.active {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 10px var(--color-glow);
+    }
+
+.theme-preview {
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.theme-option span {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.volume-section {
+    margin-bottom: 30px;
+}
+
+    .volume-section h4 {
+        color: var(--color-primary);
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.volume-icon {
+    color: var(--color-primary);
+    font-size: 1.2rem;
+}
+
+.volume-slider {
+    flex-grow: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    background: var(--color-border-light);
+    border-radius: 3px;
+    outline: none;
+}
+
+    .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--color-primary);
+        cursor: pointer;
+        border: 2px solid var(--color-secondary);
+    }
+
+.volume-value {
+    color: var(--color-primary);
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+}
+
+.music-info {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px;
+    background: var(--color-background);
+    border-radius: 5px;
+    border: 1px solid var(--color-border-light);
+}
+
+.extra-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.control-btn {
+    flex: 1;
+    padding: 10px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+    .control-btn:hover {
+        background: var(--color-primary);
+        color: var(--color-secondary);
+    }
+
+.theme-panel-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--color-border-light);
+    background: var(--color-background);
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+}
+
+    .theme-panel-footer small {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+#current-theme-name {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    display: none;
+    backdrop-filter: blur(3px);
+}
+
+    .panel-overlay.active {
+        display: block;
+    }
+
+/* ===== СТИЛИ ДЛЯ СЕКРЕТНОЙ ИНФОРМАЦИИ ===== */
+.secret-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 25, 47, 0.95);
+    backdrop-filter: blur(5px);
+}
+
+.secret-modal-content {
+    background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+    margin: 15% auto;
+    padding: 2rem;
+    border: 2px solid #64ffda;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+    animation: modalAppear 0.3s ease;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.secret-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #64ffda;
+    transition: color 0.3s ease;
+}
+
+    .secret-close:hover {
+        color: #ff6b6b;
+    }
+
+.secret-modal-content h2 {
+    margin-bottom: 1rem;
+    color: #64ffda;
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+}
+
+.secret-modal-content p {
+    margin-bottom: 1.5rem;
+    color: #8892b0;
+    font-size: 1rem;
+}
+
+.secret-code-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #64ffda;
+    border-radius: 8px;
+    background-color: #0a192f;
+    color: #ccd6f6;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+    .secret-code-input:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        border-color: #ff6b6b;
+    }
+
+.secret-submit-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    border: 2px solid #64ffda;
+    border-radius: 8px;
+    background-color: #0a192f;
+    color: #ccd6f6;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+    .secret-submit-button:hover {
+        background-color: #64ffda;
+        color: #0a192f;
+        transform: translateY(-2px);
+    }
+
+.secret-error-message {
+    color: #ff6b6b;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    display: none;
+}
+
+/* Анимация тряски для неправильного ввода */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+/* Адаптивность для модального окна */
+@media (max-width: 768px) {
+    .secret-modal-content {
+        margin: 20% auto;
+        width: 95%;
+        padding: 1.5rem;
+    }
+}
+
+/* ===== СТИЛИ ДЛЯ МОДАЛЬНОГО ОКНА "О НАС" ===== */
+.about-modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 25, 47, 0.98);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+}
+
+.about-modal-content {
+    background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+    margin: 5% auto;
+    padding: 2.5rem;
+    border: 2px solid #64ffda;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(100, 255, 218, 0.3);
+    animation: modalSlideIn 0.5s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.about-close {
+    position: absolute;
+    right: 25px;
+    top: 20px;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #64ffda;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+    .about-close:hover {
+        color: #ff6b6b;
+        background-color: rgba(255, 107, 107, 0.1);
+        transform: rotate(90deg);
+    }
+
+/* Заголовок "О нас" */
+.about-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(100, 255, 218, 0.3);
+}
+
+.about-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #64ffda;
+    box-shadow: 0 0 30px rgba(100, 255, 218, 0.5);
+    margin-bottom: 1rem;
+}
+
+.about-header h2 {
+    color: #64ffda;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+    letter-spacing: 2px;
+}
+
+.about-subtitle {
+    color: #8892b0;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Основной контент */
+.about-body {
+    color: #ccd6f6;
+    line-height: 1.8;
+}
+
+.about-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(17, 34, 64, 0.5);
+    border-radius: 12px;
+    border-left: 4px solid #64ffda;
+}
+
+    .about-section h3 {
+        color: #64ffda;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .about-section h3::before {
+            content: '✦';
+            color: #64ffda;
+            font-size: 1.2rem;
+        }
+
+    .about-section p {
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+
+/* Цитата */
+.about-quote {
+    background: linear-gradient(135deg, rgba(100, 255, 218, 0.1), rgba(0, 191, 255, 0.1));
+    border: 1px solid #64ffda;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+    text-align: center;
+    position: relative;
+}
+
+    .about-quote::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        font-size: 80px;
+        color: rgba(100, 255, 218, 0.3);
+        font-family: serif;
+    }
+
+.quote-text {
+    color: #64ffda;
+    font-size: 1.6rem;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+}
+
+.quote-author {
+    color: #ccd6f6;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.quote-context {
+    color: #8892b0;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Функционал сайта */
+.about-features {
+    margin: 2.5rem 0;
+}
+
+    .about-features h3 {
+        color: #64ffda;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    background: rgba(17, 34, 64, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+    .feature-item:hover {
+        transform: translateY(-5px);
+        border-color: #64ffda;
+        box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
+        background: rgba(17, 34, 64, 0.9);
+    }
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.8rem;
+    filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.5));
+}
+
+.feature-item span {
+    color: #ccd6f6;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Футер */
+.about-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(100, 255, 218, 0.3);
+    text-align: center;
+    color: #8892b0;
+    font-size: 0.9rem;
+}
+
+    .about-footer p {
+        margin-bottom: 0.5rem;
+    }
+
+.version {
+    color: #64ffda;
+    font-family: monospace;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .about-modal-content {
+        margin: 10% auto;
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .about-header h2 {
+        font-size: 2rem;
+    }
+
+    .about-subtitle {
+        font-size: 1rem;
+    }
+
+    .about-section {
+        padding: 1rem;
+    }
+
+    .quote-text {
+        font-size: 1.3rem;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .feature-item {
+        padding: 1rem 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-modal-content {
+        margin: 5% auto;
+        padding: 1.2rem;
+    }
+
+    .about-close {
+        right: 15px;
+        top: 10px;
+        font-size: 28px;
+    }
+}
+
+/* ===== СТИЛИ ДЛЯ МОДАЛЬНОГО ОКНА "ПОНЯТИЯ" ===== */
+.concepts-modal {
+    display: none;
+    position: fixed;
+    z-index: 1002;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 25, 47, 0.98);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    padding: 20px 0;
+}
+
+.concepts-modal-content {
+    background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+    margin: 2% auto;
+    padding: 2.5rem;
+    border: 2px solid #64ffda;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 1200px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(100, 255, 218, 0.3);
+    animation: conceptModalAppear 0.5s ease;
+}
+
+@keyframes conceptModalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.concepts-close {
+    position: absolute;
+    right: 25px;
+    top: 20px;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #64ffda;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+    .concepts-close:hover {
+        color: #ff6b6b;
+        background-color: rgba(255, 107, 107, 0.1);
+        transform: rotate(90deg);
+    }
+
+/* Заголовок */
+.concepts-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(100, 255, 218, 0.3);
+}
+
+    .concepts-header h2 {
+        color: #64ffda;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        text-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+    }
+
+.concepts-title-icon {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.7));
+}
+
+.concepts-subtitle {
+    color: #8892b0;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* Поиск */
+.concepts-search {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding: 0 1rem;
+}
+
+.concepts-search-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: 2px solid #64ffda;
+    border-radius: 10px;
+    background-color: rgba(17, 34, 64, 0.7);
+    color: #ccd6f6;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+    .concepts-search-input:focus {
+        outline: none;
+        box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+        background-color: rgba(17, 34, 64, 0.9);
+    }
+
+    .concepts-search-input::placeholder {
+        color: #8892b0;
+    }
+
+.concepts-search-btn {
+    padding: 1rem 1.5rem;
+    border: 2px solid #64ffda;
+    border-radius: 10px;
+    background-color: rgba(17, 34, 64, 0.9);
+    color: #ccd6f6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .concepts-search-btn:hover {
+        background-color: #64ffda;
+        transform: translateY(-2px);
+    }
+
+    .concepts-search-btn .btn-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+/* Контейнер с карточками */
+.concepts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Карточка понятия */
+.concept-card {
+    background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+    border: 2px solid;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+    .concept-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .concept-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+        .concept-card:hover::before {
+            opacity: 1;
+        }
+
+    /* Цвета для разных классов (старые сохраняем) */
+    .concept-card[data-concept-type="безопасный"] {
+        border-color: #00ff88;
+    }
+
+        .concept-card[data-concept-type="безопасный"]::before {
+            background: linear-gradient(90deg, #00ff88, #64ffda);
+        }
+
+    .concept-card[data-concept-type="нейтральный"] {
+        border-color: #ffaa00;
+    }
+
+        .concept-card[data-concept-type="нейтральный"]::before {
+            background: linear-gradient(90deg, #ffaa00, #ffcc00);
+        }
+
+    .concept-card[data-concept-type="свирепый"] {
+        border-color: #ff5555;
+    }
+
+        .concept-card[data-concept-type="свирепый"]::before {
+            background: linear-gradient(90deg, #ff5555, #ff6b6b);
+        }
+
+    /* НОВЫЕ ЦВЕТА ПО ТВОИМ ПРЕДПОЧТЕНИЯМ */
+    .concept-card[data-concept-type="искусственный"] {
+        border-color: #FF8C00; /* ОРАНЖЕВЫЙ */
+    }
+
+        .concept-card[data-concept-type="искусственный"]::before {
+            background: linear-gradient(90deg, #FF8C00, #FFA500);
+        }
+
+    .concept-card[data-concept-type="апокалиптический"] {
+        border-color: #8A2BE2; /* ФИОЛЕТОВЫЙ */
+    }
+
+        .concept-card[data-concept-type="апокалиптический"]::before {
+            background: linear-gradient(90deg, #8A2BE2, #9370DB);
+        }
+
+    .concept-card[data-concept-type="апокалиптический-умеренный"] {
+        border-color: #B0B0B0; /* СВЕТЛО-СЕРЫЙ */
+    }
+
+        .concept-card[data-concept-type="апокалиптический-умеренный"]::before {
+            background: linear-gradient(90deg, #B0B0B0, #D3D3D3);
+        }
+
+    .concept-card[data-concept-type="вымирающий"] {
+        border-color: #8B4513; /* КОРИЧНЕВЫЙ */
+    }
+
+        .concept-card[data-concept-type="вымирающий"]::before {
+            background: linear-gradient(90deg, #8B4513, #A0522D);
+        }
+
+    .concept-card[data-concept-type="босс"] {
+        border-color: #8B0000; /* ТЁМНО-КРАСНЫЙ */
+    }
+
+        .concept-card[data-concept-type="босс"]::before {
+            background: linear-gradient(90deg, #8B0000, #B22222);
+        }
+
+    .concept-card[data-concept-type="технический"] {
+        border-color: #000000; /* ЧЁРНЫЙ */
+    }
+
+        .concept-card[data-concept-type="технический"]::before {
+            background: linear-gradient(90deg, #000000, #333333);
+        }
+
+    .concept-card[data-concept-type="неизвестный"] {
+        border-color: #FFFFFF; /* БЕЛЫЙ */
+    }
+
+        .concept-card[data-concept-type="неизвестный"]::before {
+            background: linear-gradient(90deg, #FFFFFF, #F0F0F0);
+        }
+
+/* ЗАГОЛОВОК КАРТОЧКИ С ПЕРЕМЕЩЁННЫМ БЕЙДЖЕМ ПОД НАЗВАНИЕ */
+.concept-header {
+    display: flex;
+    flex-direction: column; /* Меняем на колонку */
+    align-items: flex-start; /* Выравниваем по левому краю */
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+}
+
+.concept-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.8rem; /* Добавляем отступ снизу для бейджа */
+    width: 100%; /* Занимает всю ширину */
+}
+
+.concept-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.5));
+}
+
+/* НОВЫЕ ЦВЕТА ИКОНОК */
+.concept-card[data-concept-type="искусственный"] .concept-icon {
+    filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.7));
+}
+
+.concept-card[data-concept-type="апокалиптический"] .concept-icon {
+    filter: drop-shadow(0 0 5px rgba(138, 43, 226, 0.7));
+}
+
+.concept-card[data-concept-type="апокалиптический-умеренный"] .concept-icon {
+    filter: drop-shadow(0 0 5px rgba(176, 176, 176, 0.7));
+}
+
+.concept-card[data-concept-type="вымирающий"] .concept-icon {
+    filter: drop-shadow(0 0 5px rgba(139, 69, 19, 0.7));
+}
+
+.concept-card[data-concept-type="босс"] .concept-icon {
+    filter: drop-shadow(0 0 5px rgba(139, 0, 0, 0.7));
+}
+
+.concept-card[data-concept-type="технический"] .concept-icon {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
+}
+
+.concept-card[data-concept-type="неизвестный"] .concept-icon {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+.concept-title h3 {
+    color: #64ffda;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* БЕЙДЖ (ПОД НАЗВАНИЕМ) */
+.concept-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-start; /* Выравниваем по левому краю */
+    margin-top: 0.5rem; /* Отступ от заголовка */
+    margin-left: 3.5rem; /* Отступ для выравнивания с текстом */
+}
+
+/* НОВЫЕ ЦВЕТА БЕЙДЖЕЙ */
+.безопасный {
+    background-color: rgba(0, 255, 136, 0.2);
+    color: #00ff88;
+    border: 1px solid #00ff88;
+}
+
+.нейтральный {
+    background-color: rgba(255, 170, 0, 0.2);
+    color: #ffaa00;
+    border: 1px solid #ffaa00;
+}
+
+.свирепый {
+    background-color: rgba(255, 85, 85, 0.2);
+    color: #ff5555;
+    border: 1px solid #ff5555;
+}
+
+/* НОВЫЕ ЦВЕТА ПО ТВОИМ ПРЕДПОЧТЕНИЯМ */
+.искусственный {
+    background-color: rgba(255, 140, 0, 0.2);
+    color: #FF8C00;
+    border: 1px solid #FF8C00;
+}
+
+.апокалиптический {
+    background-color: rgba(138, 43, 226, 0.2);
+    color: #8A2BE2;
+    border: 1px solid #8A2BE2;
+}
+
+.апокалиптический-умеренный {
+    background-color: rgba(176, 176, 176, 0.2);
+    color: #B0B0B0;
+    border: 1px solid #B0B0B0;
+}
+
+.вымирающий {
+    background-color: rgba(139, 69, 19, 0.2);
+    color: #8B4513;
+    border: 1px solid #8B4513;
+}
+
+.босс {
+    background-color: rgba(139, 0, 0, 0.2);
+    color: #8B0000;
+    border: 1px solid #8B0000;
+}
+
+.технический {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #FFFFFF;
+    border: 1px solid #000000;
+}
+
+.неизвестный {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
+
+/* Тело карточки */
+.concept-body {
+    color: #ccd6f6;
+    line-height: 1.6;
+}
+
+    .concept-body h4 {
+        color: #64ffda;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .concept-body h4::before {
+            content: '▶';
+            font-size: 0.8rem;
+            color: #64ffda;
+        }
+
+.concept-description {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(17, 34, 64, 0.5);
+    border-radius: 8px;
+    border-left: 3px solid #64ffda;
+}
+
+.concept-instruction ul {
+    list-style-type: none;
+    padding-left: 1rem;
+}
+
+    .concept-instruction ul li {
+        margin-bottom: 0.7rem;
+        padding-left: 1.5rem;
+        position: relative;
+    }
+
+        .concept-instruction ul li::before {
+            content: '•';
+            color: #64ffda;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+/* Особые стили для Неизвестного класса */
+.concept-card[data-concept-type="неизвестный"] .concept-instruction ul li {
+    color: #ff6b6b;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+/* Футер */
+.concepts-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(100, 255, 218, 0.3);
+    text-align: center;
+    color: #8892b0;
+    font-size: 0.9rem;
+}
+
+    .concepts-footer p {
+        margin-bottom: 0.5rem;
+    }
+
+.concepts-version {
+    color: #64ffda;
+    font-family: monospace;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .concepts-container {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .concepts-modal-content {
+        margin: 5% auto;
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .concepts-header h2 {
+        font-size: 1.8rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .concepts-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .concept-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .concept-title h3 {
+        font-size: 1.3rem;
+    }
+
+    .concept-badge {
+        margin-left: 0;
+        align-self: flex-start;
+    }
+
+    .concepts-search {
+        flex-direction: column;
+    }
+
+    .concepts-search-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .concepts-modal-content {
+        padding: 1.2rem;
+        margin: 2% auto;
+    }
+
+    .concepts-close {
+        right: 15px;
+        top: 10px;
+        font-size: 28px;
+    }
+
+    .concept-card {
+        padding: 1.2rem;
+    }
+
+    .concept-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .concept-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+        .concept-title h3 {
+            font-size: 1.2rem;
+        }
+
+    .concept-badge {
+        margin-left: 0;
+        margin-top: 0.3rem;
+    }
+}
+
+/* ===== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ===== */
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        order: 2;
+    }
+
+    .content-area {
+        order: 1;
+        height: 70vh;
+    }
+
+    .logo-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .logo-text {
+        font-size: 2rem;
+    }
+
+    .quote {
+        font-size: 1.2rem;
+    }
+
+    .signature {
+        font-size: 0.9rem;
+    }
+
+    .filters-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-group {
+        flex-direction: column;
+    }
+
+    .search-input {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .filter-group {
+        justify-content: center;
+    }
+
+    .filter-select {
+        min-width: auto;
+        flex: 1;
+    }
+
+    .creatures-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .creature-image {
+        height: 150px;
+    }
+
+    .planets-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .planet-image {
+        height: 150px;
+    }
+
+    .fauna-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .fauna-image {
+        height: 150px;
+    }
+
+    .fauna-details {
+        position: absolute;
+        bottom: 1rem;
+        left: 1.5rem;
+        right: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .pagination {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .pagination-btn {
+        min-width: 100%;
+        justify-content: center;
+    }
+
+    .page-info {
+        order: -1;
+    }
+
+    .info-value {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+}
+
+
+/* ===== 4. ПАЛИТРЫ ДЛЯ ВСЕХ 12 ВСЕЛЕННЫХ ===== */
+
+/* Окромы (красная) - СВЕТЛЕЕ, КАК ДЫМКА НАД ПЛАНЕТОЙ */
+body.theme-okroma {
+    --color-primary: #D32F2F; /* Яркий алый - акцентный цвет */
+    --color-secondary: #911300; /* Твой основной - тёмно-красный кирпичный */
+    --color-accent: #FF5252; /* Светлый красный для кнопок */
+    --color-highlight: #FF8A80; /* Очень светлый для hover-эффектов */
+    --color-background: #3D0F00; /* Чуть светлее фон (было #2A0800) */
+    --color-surface: #5C1A00; /* Поверхности - светлее и теплее */
+    --color-surface-dark: #7A2400; /* Для заголовков и акцентов */
+    --color-surface-light: rgba(92, 26, 0, 0.85); /* Более прозрачные */
+    --color-text: #FFCCBC; /* Тёплый светло-персиковый текст */
+    --color-text-light: #E6B8A8; /* Немного темнее для вторичного текста */
+    --color-text-accent: #FFAB91; /* Акцентный текст - коралловый */
+    --color-text-inverse: #3D0F00; /* Текст на светлых элементах */
+    --color-border: #D32F2F; /* Границы - яркий алый */
+    --color-border-light: rgba(211, 47, 47, 0.4); /* Более видимые границы */
+    --color-shadow: rgba(145, 19, 0, 0.25); /* Менее интенсивные тени */
+    --color-glow: rgba(211, 47, 47, 0.4); /* Мягкое свечение */
+    --gradient-primary: linear-gradient(135deg, #5C1A00 0%, #3D0F00 100%);
+    --gradient-accent: linear-gradient(90deg, #D32F2F, #FF5252, #D32F2F);
+    --gradient-header: linear-gradient(135deg, #5C1A00 0%, #3D0F00 100%);
+    --bg-gif: url('../images/backgrounds/okroma-bg.gif');
+}
+
+/* Для новой темы Окромы добавляем RGB */
+body.theme-okroma {
+    --color-primary-rgb: 211, 47, 47; /* #D32F2F */
+}
+
+/* Плауэро (оранжевая) - ЯРКАЯ И СОЧНАЯ ОРАНЖЕВАЯ ПЛАНЕТА! */
+body.theme-plauero {
+    --color-primary: #FFC996; /* Акцент - светлый персиковый */
+    --color-secondary: #D08743; /* Основной - тёплый оранжевый (медный) */
+    --color-accent: #FF9800; /* ЯРКИЙ оранжевый для кнопок! */
+    --color-highlight: #FFB74D; /* Светло-оранжевый для hover */
+    --color-background: #A65C00; /* НАСЫЩЕННЫЙ ТЁМНО-ОРАНЖЕВЫЙ фон! */
+    --color-surface: #C47C2B; /* Поверхности - яркий оранжево-коричневый */
+    --color-surface-dark: #D08743; /* Твоя основа - для акцентов */
+    --color-surface-light: rgba(196, 124, 43, 0.9); /* Полупрозрачные */
+    --color-text: #FFF8F0; /* Очень светлый кремово-белый */
+    --color-text-light: #FFE4C4; /* Светло-бежевый */
+    --color-text-accent: #FFD8A8; /* Акцентный текст */
+    --color-text-inverse: #5C3A1A; /* Текст на светлых элементах */
+    --color-border: #FF9800; /* Границы - ЯРКИЙ ОРАНЖЕВЫЙ! */
+    --color-border-light: rgba(255, 152, 0, 0.5); /* Полупрозрачные */
+    --color-shadow: rgba(208, 135, 67, 0.3); /* Оранжевые тени */
+    --color-glow: rgba(255, 152, 0, 0.6); /* Яркое оранжевое свечение! */
+    --gradient-primary: linear-gradient(135deg, #C47C2B 0%, #A65C00 100%);
+    --gradient-accent: linear-gradient(90deg, #FF9800, #FFB74D, #FF9800);
+    --gradient-header: linear-gradient(135deg, #C47C2B 0%, #A65C00 100%);
+    --bg-gif: url('../images/backgrounds/plauero-bg.gif');
+}
+
+/* RGB переменная */
+body.theme-plauero {
+    --color-primary-rgb: 255, 201, 150; /* #FFC996 */
+}
+
+/* Таранте (зелёная) - СВЕЖАЯ ЗЕЛЁНАЯ ПЛАНЕТА С ЖИЗНЬЮ */
+body.theme-tarante {
+    --color-primary: #A0D8A2; /* Акцент - светлый мятно-зелёный (твой акцент) */
+    --color-secondary: #3C9545; /* Основной - насыщенный зелёный (как листва) */
+    --color-accent: #66BB6A; /* Яркий зелёный для кнопок */
+    --color-highlight: #C8E6C9; /* Очень светлый зелёный для hover */
+    --color-background: #1B5E20; /* Тёмный зелёный фон (изумрудный) */
+    --color-surface: #2E7D32; /* Поверхности - средний зелёный */
+    --color-surface-dark: #3C9545; /* Твой основной - для акцентов */
+    --color-surface-light: rgba(46, 125, 50, 0.9); /* Полупрозрачные поверхности */
+    --color-text: #E8F5E9; /* Очень светлый зелёно-белый текст */
+    --color-text-light: #C8E6C9; /* Светло-зелёный для вторичного текста */
+    --color-text-accent: #A5D6A7; /* Акцентный текст */
+    --color-text-inverse: #1B5E20; /* Текст на светлых элементах */
+    --color-border: #66BB6A; /* Границы - яркий зелёный */
+    --color-border-light: rgba(102, 187, 106, 0.4); /* Полупрозрачные границы */
+    --color-shadow: rgba(60, 149, 69, 0.25); /* Зелёные тени */
+    --color-glow: rgba(160, 216, 162, 0.5); /* Мягкое зелёное свечение */
+    --gradient-primary: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+    --gradient-accent: linear-gradient(90deg, #A0D8A2, #66BB6A, #A0D8A2);
+    --gradient-header: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+    --bg-gif: url('../images/backgrounds/tarante-bg.gif');
+}
+
+/* RGB переменная */
+body.theme-tarante {
+    --color-primary-rgb: 160, 216, 162; /* #A0D8A2 */
+}
+
+/* Шань-Лу (жёлтая) - ЯРКАЯ, НО НЕ ОСЛЕПИТЕЛЬНАЯ */
+body.theme-shan-lu {
+    --color-primary: #FFF4CE; /* Акцент - светлый кремовый */
+    --color-secondary: #FFD54F; /* Основной - СОЧНЫЙ золотистый (ярче чем был) */
+    --color-accent: #FFB300; /* Насыщенный янтарный для кнопок */
+    --color-highlight: #FFE082; /* Светлый жёлтый для hover */
+    --color-background: #FF8F00; /* ТЁМНЫЙ ОРАНЖЕВО-ЖЁЛТЫЙ (был #FF9800) */
+    --color-surface: #FFA726; /* Поверхности - яркий апельсиновый */
+    --color-surface-dark: #FF8F00; /* Для заголовков */
+    --color-surface-light: rgba(255, 167, 38, 0.85); /* Полупрозрачные */
+    --color-text: #FFFDE7; /* Очень светлый жёлто-белый текст */
+    --color-text-light: #FFF9C4; /* Светло-жёлтый для вторичного текста */
+    --color-text-accent: #FFECB3; /* Акцентный текст */
+    --color-text-inverse: #5D4037; /* Текст на светлых элементах */
+    --color-border: #FFB300; /* Границы - НАСЫЩЕННЫЙ янтарный */
+    --color-border-light: rgba(255, 179, 0, 0.4); /* Полупрозрачные */
+    --color-shadow: rgba(255, 213, 79, 0.25); /* Мягкие жёлтые тени */
+    --color-glow: rgba(255, 179, 0, 0.5); /* ТЁПЛОЕ СВЕЧЕНИЕ (менее яркое) */
+    --gradient-primary: linear-gradient(135deg, #FFA726 0%, #FF8F00 100%);
+    --gradient-accent: linear-gradient(90deg, #FFB300, #FFE082, #FFB300);
+    --gradient-header: linear-gradient(135deg, #FFA726 0%, #FF8F00 100%);
+    --bg-gif: url('../images/backgrounds/shan-lu-bg.gif');
+}
+
+/* RGB переменная */
+body.theme-shan-lu {
+    --color-primary-rgb: 255, 244, 206; /* #FFF4CE */
+}
+
+/* Акрара (голубая) - ЧИСТАЯ И ПРОХЛАДНАЯ ВОДНАЯ ПЛАНЕТА */
+body.theme-akra {
+    --color-primary: #99E4FF; /* Акцент - светлый небесно-голубой (твой акцент) */
+    --color-secondary: #FFF4CE; /* Основной - кремовый (как пена на волнах) */
+    --color-accent: #4FC3F7; /* Яркий голубой для кнопок */
+    --color-highlight: #B3E5FC; /* Очень светлый голубой для hover */
+    --color-background: #0D47A1; /* ГЛУБОКИЙ СИНИЙ фон (как океанская глубина) */
+    --color-surface: #1565C0; /* Поверхности - насыщенный синий */
+    --color-surface-dark: #2B6197; /* Твой фон - для акцентов */
+    --color-surface-light: rgba(21, 101, 192, 0.9); /* Полупрозрачные поверхности */
+    --color-text: #E3F2FD; /* Очень светлый голубовато-белый текст */
+    --color-text-light: #BBDEFB; /* Светло-голубой для вторичного текста */
+    --color-text-accent: #81D4FA; /* Акцентный текст */
+    --color-text-inverse: #0D47A1; /* Текст на светлых элементах */
+    --color-border: #4FC3F7; /* Границы - яркий голубой */
+    --color-border-light: rgba(79, 195, 247, 0.4); /* Полупрозрачные границы */
+    --color-shadow: rgba(43, 97, 151, 0.25); /* Синие тени */
+    --color-glow: rgba(153, 228, 255, 0.5); /* Мягкое голубое свечение */
+    --gradient-primary: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+    --gradient-accent: linear-gradient(90deg, #99E4FF, #4FC3F7, #99E4FF);
+    --gradient-header: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+    --bg-gif: url('../images/backgrounds/akra-bg.gif');
+}
+
+/* RGB переменная */
+body.theme-akra {
+    --color-primary-rgb: 153, 228, 255; /* #99E4FF */
+}
+
+/* Хаяси (фиолетовая) - СВЕТЛЫЙ ТЕКСТ НА ТЁМНО-ФИОЛЕТОВОМ */
+body.theme-hayashi {
+    --color-primary: #9b59b6;
+    --color-secondary: #2d0d3d;
+    --color-accent: #8e44ad;
+    --color-highlight: #8a2be2;
+    --color-background: #1a0b24; /* Тёмно-фиолетовый фон */
+    --color-surface: #2d1b3d; /* Тёмные фиолетовые карточки */
+    --color-surface-dark: #9b59b6;
+    --color-surface-light: rgba(45, 27, 61, 0.95);
+    --color-text: #e6d4f7; /* Светло-фиолетовый текст */
+    --color-text-light: #b39bc8;
+    --color-text-accent: #9b59b6;
+    --color-border: #9b59b6;
+    --color-border-light: rgba(155, 89, 182, 0.3);
+    --color-shadow: rgba(155, 89, 182, 0.2);
+    --color-glow: rgba(155, 89, 182, 0.5);
+    --gradient-primary: linear-gradient(135deg, #2d1b3d 0%, #1a0b24 100%);
+    --gradient-accent: linear-gradient(90deg, #9b59b6, #8a2be2, #9b59b6);
+    --gradient-header: linear-gradient(135deg, #2d1b3d 0%, #1a0b24 100%);
+    --bg-gif: url('../images/backgrounds/hayashi-bg.gif');
+}
+
+/* RGB переменная для Хаяси (добавляем в конец файла, где все RGB переменные) */
+body.theme-hayashi {
+    --color-primary-rgb: 155, 89, 182; /* #9B59B6 - фиолетовый акцент */
+}
+
+/* Шутьяма (коричневая) - ЗЕМЛИСТАЯ, ПОЧВЕННАЯ, ПРИРОДНАЯ */
+body.theme-shutyam {
+    --color-primary: #AE7067; /* Акцент - мягкий терракотовый (твой акцент) */
+    --color-secondary: #8E554D; /* Основной - тёплый коричневый (как глина) */
+    --color-accent: #A1887F; /* Серо-коричневый для кнопок */
+    --color-highlight: #D7CCC8; /* Светлый бежевый для hover */
+    --color-background: #3E2723; /* ОЧЕНЬ ТЁМНЫЙ шоколадный фон */
+    --color-surface: #4E342E; /* Поверхности - насыщенный коричневый */
+    --color-surface-dark: #562C26; /* Твой фон - для акцентов (красновато-коричневый) */
+    --color-surface-light: rgba(78, 52, 46, 0.9); /* Полупрозрачные поверхности */
+    --color-text: #EFEBE9; /* Очень светлый бежевый текст */
+    --color-text-light: #D7CCC8; /* Светлый серо-бежевый для вторичного текста */
+    --color-text-accent: #BCAAA4; /* Акцентный текст */
+    --color-text-inverse: #3E2723; /* Текст на светлых элементах */
+    --color-border: #8D6E63; /* Границы - нейтральный коричневый */
+    --color-border-light: rgba(142, 85, 77, 0.3); /* Полупрозрачные границы */
+    --color-shadow: rgba(86, 44, 38, 0.25); /* Коричневые тени */
+    --color-glow: rgba(174, 112, 103, 0.4); /* Мягкое терракотовое свечение */
+    --gradient-primary: linear-gradient(135deg, #4E342E 0%, #3E2723 100%);
+    --gradient-accent: linear-gradient(90deg, #AE7067, #A1887F, #AE7067);
+    --gradient-header: linear-gradient(135deg, #4E342E 0%, #3E2723 100%);
+    --bg-gif: url('../images/backgrounds/shutyam-bg.gif');
+}
+
+/* RGB переменная */
+body.theme-shutyam {
+    --color-primary-rgb: 174, 112, 103; /* #AE7067 */
+}
+
+/* Темень (тёмно-серая) - АБСОЛЮТНАЯ ТЬМА С ФИОЛЕТОВЫМИ ВСПЛЕСКАМИ */
+body.theme-temeni {
+    --color-primary: #9D59B2; /* Акцент - яркий фиолетовый (твой акцент) */
+    --color-secondary: #202020; /* Основной - очень тёмный серый */
+    --color-accent: #BA68C8; /* Светлый фиолетовый для кнопок */
+    --color-highlight: #CE93D8; /* Очень светлый фиолетовый для hover */
+    --color-background: #000000; /* АБСОЛЮТНО ЧЁРНЫЙ фон */
+    --color-surface: #101010; /* Поверхности - твой фон, почти чёрный */
+    --color-surface-dark: #202020; /* Твой основной - для акцентов */
+    --color-surface-light: rgba(16, 16, 16, 0.95); /* Почти непрозрачные поверхности */
+    --color-text: #E0E0E0; /* Светло-серый текст */
+    --color-text-light: #9E9E9E; /* Средне-серый для вторичного текста */
+    --color-text-accent: #BA68C8; /* Акцентный текст - фиолетовый */
+    --color-text-inverse: #000000; /* Текст на светлых элементах */
+    --color-border: #9D59B2; /* Границы - фиолетовый акцент */
+    --color-border-light: rgba(157, 89, 178, 0.25); /* Едва заметные границы */
+    --color-shadow: rgba(0, 0, 0, 0.5); /* Глубокие чёрные тени */
+    --color-glow: rgba(157, 89, 178, 0.3); /* ТАИНСТВЕННОЕ фиолетовое свечение */
+    --gradient-primary: linear-gradient(135deg, #101010 0%, #000000 100%);
+    --gradient-accent: linear-gradient(90deg, #9D59B2, #BA68C8, #9D59B2);
+    --gradient-header: linear-gradient(135deg, #101010 0%, #000000 100%);
+    --bg-gif: url('../images/backgrounds/temeni-bg.gif');
+}
+
+/* RGB переменная */
+body.theme-temeni {
+    --color-primary-rgb: 157, 89, 178; /* #9D59B2 */
+}
+
+/* Изгойка (лаймовая) - СВЕТЛЕЕ, НО ВСЁ ЕЩЁ НА ГРАНИ ГИБЕЛИ */
+body.theme-izgoika {
+    --color-primary: #FFE466; /* Акцент - солнечный жёлтый */
+    --color-secondary: #BAFF8F; /* Основной - яркий лаймовый */
+    --color-accent: #FFB74D; /* Более светлый оранжевый (было #FF9800) */
+    --color-highlight: #FFFF8D; /* Ослепительно жёлтый для hover */
+
+    --color-background: #388E3C; /* СВЕТЛЕЕ ЗЕЛЁНЫЙ (было #1B5E20) */
+    --color-surface: #66BB6A; /* СВЕТЛЕЕ (было #4CAF50) */
+    --color-surface-dark: #A5D6A7; /* СВЕТЛЫЙ (было #8FDE5D) */
+    --color-surface-light: rgba(102, 187, 106, 0.85); /* Светлее */
+
+    --color-text: #FFFFFF; /* БЕЛЫЙ текст (было бледно-зелёный) */
+    --color-text-light: #E8F5E9; /* Очень светлый зелёный */
+    --color-text-accent: #FFECB3; /* Светлый жёлтый для акцентов */
+    --color-text-inverse: #2E7D32; /* Текст на светлых элементах */
+
+    --color-border: #FFB74D; /* Границы - светлый оранжевый */
+    --color-border-light: rgba(255, 228, 102, 0.3); /* Меньше интенсивности */
+    --color-shadow: rgba(165, 214, 167, 0.2); /* Светлее тени */
+    --color-glow: rgba(255, 183, 77, 0.4); /* Меньше опасное свечение */
+
+    --gradient-primary: linear-gradient(135deg, #66BB6A 0%, #388E3C 100%);
+    --gradient-accent: linear-gradient(90deg, #FFE466, #FFB74D, #FFE466);
+    --gradient-header: linear-gradient(135deg, #A5D6A7 0%, #388E3C 100%);
+    --bg-gif: url('../images/backgrounds/izgoika-bg.gif');
+    
+}
+
+/* RGB переменная */
+body.theme-izgoika {
+    --color-primary-rgb: 255, 228, 102; /* #FFE466 */
+}
+
+/* Нулевое пространство (чёрно-белое) */
+body.theme-null-space {
+    --color-primary: #ffffff;
+    --color-secondary: #000000;
+    --color-accent: #888888;
+    --color-highlight: #cccccc;
+    --color-background: #000000;
+    --color-surface: #111111;
+    --color-surface-dark: #222222;
+    --color-surface-light: rgba(17, 17, 17, 0.95);
+    --color-text: #ffffff;
+    --color-text-light: #aaaaaa;
+    --color-text-accent: #ffffff;
+    --color-border: #ffffff;
+    --color-border-light: rgba(255, 255, 255, 0.3);
+    --color-shadow: rgba(255, 255, 255, 0.1);
+    --color-glow: rgba(255, 255, 255, 0.3);
+    --gradient-primary: linear-gradient(135deg, #111111 0%, #000000 100%);
+    --gradient-accent: linear-gradient(90deg, #ffffff, #cccccc, #ffffff);
+    --gradient-header: linear-gradient(135deg, #111111 0%, #000000 100%);
+    --bg-gif: none;
+}
+
+    body.theme-null-space::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+        background: none;
+        -webkit-backdrop-filter: grayscale(100%);
+        backdrop-filter: grayscale(100%);
+        mix-blend-mode: luminosity;
+    }
+
+    /* Исключаем панель из фильтра */
+    body.theme-null-space .theme-panel,
+    body.theme-null-space .panel-overlay {
+        filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+/* Секретная тема (радужная) - ПЛАВНОЕ ПЕРЕЛИВАНИЕ ВСЕХ ЦВЕТОВ РАДУГИ! */
+body.theme-secret {
+    --color-primary: #FF00FF; /* Начальный цвет - фуксия */
+    --color-secondary: #000000; /* Основной - чёрный (статичный) */
+    --color-accent: #00FFFF; /* Акцент - циан */
+    --color-highlight: #FFFF00; /* Подсветка - жёлтый */
+
+    --color-background: #000000; /* СТАТИЧНЫЙ ЧЁРНЫЙ фон */
+    --color-surface: #111111; /* Тёмные поверхности - почти чёрные */
+    --color-surface-dark: #222222; /* Для заголовков */
+    --color-surface-light: rgba(17, 17, 17, 0.95); /* Полупрозрачные */
+
+    --color-text: #FFFFFF; /* БЕЛЫЙ текст */
+    --color-text-light: #CCCCCC; /* Светло-серый для вторичного текста */
+    --color-text-accent: #FF00FF; /* Акцентный текст (меняется с анимацией) */
+    --color-text-inverse: #000000; /* Текст на светлых элементах */
+
+    --color-border: #FF00FF; /* Границы (меняются с анимацией) */
+    --color-border-light: rgba(255, 0, 255, 0.3); /* Полупрозрачные границы */
+    --color-shadow: rgba(255, 0, 255, 0.2); /* Тени (меняются) */
+    --color-glow: rgba(255, 0, 255, 0.5); /* Свечение (меняется) */
+
+    --gradient-primary: linear-gradient(135deg, #111111 0%, #000000 100%);
+    --gradient-accent: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary));
+    --gradient-header: linear-gradient(135deg, #111111 0%, #000000 100%);
+    --bg-gif: url('../images/backgrounds/secret-bg.gif');
+    /* ПЛАВНАЯ АНИМАЦИЯ ПЕРЕЛИВАНИЯ ВСЕХ ЦВЕТОВ РАДУГИ */
+    animation: rainbow-flow 10s infinite linear;
+}
+
+/* RGB переменная */
+body.theme-secret {
+    --color-primary-rgb: 255, 0, 255; /* #FF00FF */
+}
+
+/* КЛЮЧЕВЫЕ КАДРЫ ДЛЯ ПЛАВНОГО ПЕРЕЛИВАНИЯ ВСЕХ ЦВЕТОВ */
+@keyframes rainbow-flow {
+    0% {
+        --color-primary: #FF0000; /* Красный */
+        --color-accent: #FF7F00; /* Оранжевый */
+        --color-highlight: #FFFF00; /* Жёлтый */
+        --color-border: #FF0000;
+        --color-text-accent: #FF0000;
+        --color-glow: rgba(255, 0, 0, 0.5);
+    }
+
+    16.6% {
+        --color-primary: #FF7F00; /* Оранжевый */
+        --color-accent: #FFFF00; /* Жёлтый */
+        --color-highlight: #00FF00; /* Зелёный */
+        --color-border: #FF7F00;
+        --color-text-accent: #FF7F00;
+        --color-glow: rgba(255, 127, 0, 0.5);
+    }
+
+    33.3% {
+        --color-primary: #FFFF00; /* Жёлтый */
+        --color-accent: #00FF00; /* Зелёный */
+        --color-highlight: #0000FF; /* Синий */
+        --color-border: #FFFF00;
+        --color-text-accent: #FFFF00;
+        --color-glow: rgba(255, 255, 0, 0.5);
+    }
+
+    50% {
+        --color-primary: #00FF00; /* Зелёный */
+        --color-accent: #0000FF; /* Синий */
+        --color-highlight: #4B0082; /* Индиго */
+        --color-border: #00FF00;
+        --color-text-accent: #00FF00;
+        --color-glow: rgba(0, 255, 0, 0.5);
+    }
+
+    66.6% {
+        --color-primary: #0000FF; /* Синий */
+        --color-accent: #4B0082; /* Индиго */
+        --color-highlight: #9400D3; /* Фиолетовый */
+        --color-border: #0000FF;
+        --color-text-accent: #0000FF;
+        --color-glow: rgba(0, 0, 255, 0.5);
+    }
+
+    83.3% {
+        --color-primary: #4B0082; /* Индиго */
+        --color-accent: #9400D3; /* Фиолетовый */
+        --color-highlight: #FF0000; /* Красный */
+        --color-border: #4B0082;
+        --color-text-accent: #4B0082;
+        --color-glow: rgba(75, 0, 130, 0.5);
+    }
+
+    100% {
+        --color-primary: #9400D3; /* Фиолетовый */
+        --color-accent: #FF0000; /* Красный */
+        --color-highlight: #FF7F00; /* Оранжевый */
+        --color-border: #9400D3;
+        --color-text-accent: #9400D3;
+        --color-glow: rgba(148, 0, 211, 0.5);
+    }
+}
+
+/* ДОПОЛНИТЕЛЬНО: Плавное изменение градиента в кнопках */
+body.theme-secret .sidebar-btn,
+body.theme-secret .filter-btn,
+body.theme-secret .pagination-btn {
+    animation: button-rainbow 20s infinite linear;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-highlight) );
+    background-size: 300% 300%;
+}
+
+@keyframes button-rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Плавное изменение цвета текста в акцентах */
+body.theme-secret .theme-option.active,
+body.theme-secret .creature-name,
+body.theme-secret .planet-name,
+body.theme-secret .fauna-name,
+body.theme-secret .resource-name {
+    animation: text-rainbow 25s infinite linear;
+}
+
+@keyframes text-rainbow {
+    0% {
+        color: #FF0000;
+    }
+
+    14% {
+        color: #FF7F00;
+    }
+
+    28% {
+        color: #FFFF00;
+    }
+
+    42% {
+        color: #00FF00;
+    }
+
+    57% {
+        color: #0000FF;
+    }
+
+    71% {
+        color: #4B0082;
+    }
+
+    85% {
+        color: #9400D3;
+    }
+
+    100% {
+        color: #FF0000;
+    }
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .theme-panel {
+        width: 100%;
+        right: -100%;
+    }
+
+    .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Остальные адаптивные стили остаются без изменений */
+}
+
+/* ===== СТИЛИ ДЛЯ ЗАГОЛОВКОВ АРХИВОВ ===== */
+
+/* Общие стили для заголовков во всех архивах */
+.filters-header h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    text-shadow: 0 0 10px var(--color-glow);
+}
+
+.filters-header .content-description {
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Отдельно для заголовка планет (у него ./planets/-header) */
+.planets-header h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    text-shadow: 0 0 10px var(--color-glow);
+}
+
+.planets-header .content-description {
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Детали фауны и ресурсов */
+.fauna-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.fauna-type {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.3rem 0.8rem;
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 4px;
+    border: 1px solid var(--color-primary);
+}
+
+.fauna-planet {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.resource-details {
+    position: absolute;
+    bottom: 1rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.resource-type {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.3rem 0.8rem;
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 4px;
+    border: 1px solid var(--color-primary);
+}
+
+.resource-planet {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Добавляем RGB-версию primary цвета для прозрачности */
+body {
+    --color-primary-rgb: 100, 255, 218; /* Для АМЕГА темы */
+}
+
+    /* Обновляем RGB значения для всех тем */
+    body.theme-okroma {
+        --color-primary-rgb: 231, 76, 60;
+    }
+
+    body.theme-plauero {
+        --color-primary-rgb: 230, 126, 34;
+    }
+
+    body.theme-tarante {
+        --color-primary-rgb: 39, 174, 96;
+    }
+
+    body.theme-shan-lu {
+        --color-primary-rgb: 241, 196, 15;
+    }
+
+    body.theme-akra {
+        --color-primary-rgb: 26, 188, 156;
+    }
+
+    body.theme-hayashi {
+        --color-primary-rgb: 155, 89, 182;
+    }
+
+    body.theme-shutyam {
+        --color-primary-rgb: 210, 105, 30;
+    }
+
+    body.theme-temeni {
+        --color-primary-rgb: 108, 92, 231;
+    }
+
+    body.theme-izgoika {
+        --color-primary-rgb: 50, 205, 50;
+    }
+
+    body.theme-null-space {
+        --color-primary-rgb: 255, 255, 255;
+    }
+
+    body.theme-secret {
+        --color-primary-rgb: 255, 0, 255;
+    }
+
+/* Секретная тема в превью (радужная анимация) */
+.secret-preview {
+    background: linear-gradient(135deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3 );
+    background-size: 400% 400%;
+    animation: secret-preview-rainbow 10s infinite linear;
+}
+
+@keyframes secret-preview-rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 400% 50%;
+    }
+}
+
+
+/* ===== СТИЛИ ДЛЯ РАЗДЕЛА "СЮЖЕТ" ===== */
+
+/* Контент сюжета */
+.story-content {
+    position: relative;
+    z-index: 2;
+    background-color: var(--color-surface-light);
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    overflow-y: auto;
+    display: none;
+}
+
+    .story-content.active-content {
+        display: block;
+    }
+
+/* Заголовок */
+.story-header h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px var(--color-glow);
+}
+
+.story-header .content-description {
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    max-width: 800px;
+}
+
+/* ДИСКЛЕЙМЕР */
+.disclaimer-warning {
+    background: linear-gradient(135deg, rgba(255, 87, 87, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%);
+    border: 2px solid var(--color-danger);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    animation: pulse-warning 3s infinite;
+}
+
+@keyframes pulse-warning {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 87, 87, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba(255, 87, 87, 0);
+    }
+}
+
+.warning-icon {
+    font-size: 2.5rem;
+    background: var(--color-danger);
+    color: var(--color-text-inverse);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.warning-content h3 {
+    color: var(--color-danger);
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.warning-content p {
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.warning-note {
+    color: var(--color-text-light);
+    font-style: italic;
+    font-size: 0.95rem;
+    margin-top: 0.8rem;
+    border-left: 3px solid var(--color-warning);
+    padding-left: 1rem;
+}
+
+/* Контейнер для арок */
+.story-arcs-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+/* Карточка сюжетной арки (больше обычных карточек) */
+.story-arc-card {
+    background: var(--gradient-primary);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-timing);
+    position: relative;
+    overflow: hidden;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+    .story-arc-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px var(--color-glow);
+        border-color: var(--color-primary);
+    }
+
+/* Номер арки */
+.arc-number {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--color-surface-light);
+    color: var(--color-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 2px solid var(--color-border);
+    z-index: 2;
+}
+
+/* Изображение арки */
+.arc-image {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+    .arc-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-speed) var(--transition-timing);
+    }
+
+.story-arc-card:hover .arc-image img {
+    transform: scale(1.05);
+}
+
+/* Статус арки */
+.arc-status {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 2;
+}
+
+    .arc-status.completed {
+        background: rgba(0, 255, 136, 0.2);
+        color: var(--color-success);
+        border: 1px solid var(--color-success);
+    }
+
+    .arc-status.in-progress {
+        background: rgba(255, 170, 0, 0.2);
+        color: var(--color-warning);
+        border: 1px solid var(--color-warning);
+    }
+
+    .arc-status.planned {
+        background: rgba(100, 255, 218, 0.2);
+        color: var(--color-primary);
+        border: 1px solid var(--color-primary);
+    }
+
+/* Информация об арке */
+.arc-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.arc-name {
+    color: var(--color-primary);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.arc-description {
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+/* Детали арки */
+.arc-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 8px;
+    border: 1px solid var(--color-border-light);
+}
+
+.arc-chapters {
+    color: var(--color-text);
+    font-weight: bold;
+}
+
+.arc-planets {
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-icon {
+    width: 25px;
+    height: 25px;
+    opacity: 0.7;
+}
+
+/* Прогресс арки */
+.arc-progress {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--color-surface-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+.progress-text {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    display: block;
+    text-align: center;
+}
+
+/* Кнопка перехода к арке */
+.arc-link-btn {
+    display: block;
+    padding: 1rem;
+    background: var(--color-background);
+    color: var(--color-text);
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all var(--transition-speed) var(--transition-timing);
+    margin-top: auto;
+}
+
+    .arc-link-btn:hover {
+        background: var(--color-primary);
+        color: var(--color-secondary);
+        transform: translateY(-2px);
+    }
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .story-arcs-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .story-arcs-container {
+        grid-template-columns: 1fr;
+    }
+
+    .disclaimer-warning {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .warning-icon {
+        align-self: center;
+    }
+
+    .story-arc-card {
+        min-height: auto;
+    }
+}
+
+
+
+/* ===== СТИЛИ ДЛЯ МОДАЛЬНОГО ОКНА ИСТОРИИ ===== */
+.history-modal {
+    display: none;
+    position: fixed;
+    z-index: 1003;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 25, 47, 0.98);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    padding: 20px 0;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.history-modal-content {
+    background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+    margin: 2% auto;
+    padding: 2.5rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 900px;
+    position: relative;
+    box-shadow: 0 20px 50px var(--color-glow);
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.history-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(var(--color-primary-rgb), 0.3);
+}
+
+    .history-modal-header h2 {
+        color: var(--color-primary);
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 0;
+        text-shadow: 0 0 15px var(--color-glow);
+    }
+
+.history-close {
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--color-primary);
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+    .history-close:hover {
+        color: var(--color-accent);
+        background-color: rgba(var(--color-primary-rgb), 0.1);
+        transform: rotate(90deg);
+    }
+
+/* Секция версии */
+.version-section {
+    background: rgba(17, 34, 64, 0.5);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--color-primary);
+}
+
+    .version-section h3 {
+        color: var(--color-primary);
+        margin-bottom: 0.5rem;
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+.version-date {
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.version-features,
+.version-details,
+.version-notes {
+    margin-bottom: 1.5rem;
+}
+
+    .version-features h4,
+    .version-details h4,
+    .version-notes h4 {
+        color: var(--color-primary);
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .version-features ul,
+    .version-details ul {
+        list-style-type: none;
+        padding-left: 1rem;
+    }
+
+    .version-features li,
+    .version-details li {
+        margin-bottom: 0.8rem;
+        padding-left: 1.8rem;
+        position: relative;
+        color: var(--color-text);
+        line-height: 1.5;
+    }
+
+        .version-features li::before,
+        .version-details li::before {
+            content: '✓';
+            color: var(--color-success);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+    .version-notes p {
+        color: var(--color-text-light);
+        line-height: 1.6;
+        padding: 1rem;
+        background: rgba(var(--color-primary-rgb), 0.05);
+        border-radius: 8px;
+        border-left: 3px solid var(--color-warning);
+    }
+
+/* Планы на будущее */
+.future-plans {
+    background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.1), rgba(0, 191, 255, 0.1));
+    border: 1px solid var(--color-primary);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+    .future-plans h3 {
+        color: var(--color-primary);
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .future-plans ul {
+        list-style-type: none;
+        padding-left: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .future-plans li {
+        color: var(--color-text);
+        padding: 0.8rem 1rem;
+        background: rgba(17, 34, 64, 0.7);
+        border-radius: 8px;
+        border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+        transition: all 0.3s ease;
+        position: relative;
+        padding-left: 2.5rem;
+    }
+
+        .future-plans li::before {
+            content: '→';
+            color: var(--color-highlight);
+            position: absolute;
+            left: 1rem;
+            font-weight: bold;
+        }
+
+        .future-plans li:hover {
+            transform: translateX(5px);
+            border-color: var(--color-primary);
+            background: rgba(var(--color-primary-rgb), 0.1);
+        }
+
+/* Футер истории */
+.history-footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(var(--color-primary-rgb), 0.3);
+    text-align: center;
+}
+
+.version-tag {
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+    .version-tag strong {
+        background: rgba(var(--color-primary-rgb), 0.2);
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        border: 1px solid var(--color-primary);
+    }
+
+.copyright {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .history-modal-content {
+        margin: 5% auto;
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .history-modal-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .version-section h3 {
+        font-size: 1.3rem;
+    }
+
+    .future-plans ul {
+        grid-template-columns: 1fr;
+    }
+
+    .history-close {
+        font-size: 28px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .history-modal-content {
+        padding: 1.2rem;
+        margin: 2% auto;
+    }
+
+    .version-section {
+        padding: 1.2rem;
+    }
+
+    .version-features li,
+    .version-details li,
+    .future-plans li {
+        padding-left: 1.5rem;
+    }
+
+        .future-plans li::before {
+            left: 0.5rem;
+        }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.secret-note {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.secret-note-content {
+    background: #05070d;
+    border: 1px solid #64ffda;
+    padding: 30px;
+    max-width: 500px;
+    text-align: center;
+    color: #64ffda;
+    font-family: monospace;
+    box-shadow: 0 0 25px rgba(100,255,218,0.3);
+    animation: flicker 2s infinite;
+}
+
+    .secret-note-content h2 {
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px #64ffda;
+    }
+
+    .secret-note-content button {
+        margin-top: 20px;
+        padding: 8px 15px;
+        background: transparent;
+        border: 1px solid #64ffda;
+        color: #64ffda;
+        cursor: pointer;
+    }
+
+/* лёгкий “глитч/мерцание” */
+@keyframes flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.85;
+    }
+}

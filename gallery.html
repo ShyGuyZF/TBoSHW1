@@ -1,0 +1,1214 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея фан-артов | АМЕГА</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* СТИЛИ ДЛЯ ГАЛЕРЕИ */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid var(--color-primary);
+        }
+
+        .gallery-title {
+            color: var(--color-primary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--color-glow);
+        }
+
+        .gallery-subtitle {
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+        }
+
+        /* ПАНЕЛЬ С КОНТАКТАМИ */
+        .contact-panel {
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-background) 100%);
+            border: 3px solid var(--color-primary);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--color-glow);
+            animation: pulse-border 3s infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% {
+                border-color: var(--color-primary);
+            }
+
+            50% {
+                border-color: var(--color-accent);
+            }
+        }
+
+        .contact-title {
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .email-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--color-background);
+            color: var(--color-primary);
+            padding: 1.2rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: 2px solid var(--color-primary);
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+            .email-link:hover {
+                background: var(--color-primary);
+                color: var(--color-secondary);
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px var(--color-glow);
+            }
+
+        .contact-note {
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+        /* ФИЛЬТРЫ ГАЛЕРЕИ */
+        .gallery-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background: var(--color-surface-light);
+            border-radius: 12px;
+            border: 2px solid var(--color-border);
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--color-border);
+            border-radius: 25px;
+            background: var(--color-background);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+            .filter-btn:hover,
+            .filter-btn.active {
+                background: var(--color-primary);
+                color: var(--color-secondary);
+                border-color: var(--color-primary);
+            }
+
+        /* СЕТКА АРТОВ */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .art-card {
+            background: var(--gradient-primary);
+            border: 2px solid var(--color-border);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+            .art-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 40px var(--color-glow);
+                border-color: var(--color-primary);
+            }
+
+        .art-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .art-card:hover .art-image {
+            transform: scale(1.05);
+        }
+
+        .art-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+        }
+
+        .art-card:hover .art-overlay {
+            opacity: 1;
+        }
+
+        .art-info {
+            padding: 1.5rem;
+            background: var(--color-surface);
+        }
+
+        .art-title {
+            color: var(--color-primary);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .art-author {
+            color: var(--color-text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .art-date {
+            color: var(--color-text-light);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .art-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .art-tag {
+            background: rgba(var(--color-primary-rgb), 0.1);
+            color: var(--color-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid var(--color-border-light);
+        }
+
+        /* КНОПКА ЗАГРУЗКИ ЕЩЁ */
+        .load-more {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .load-more-btn {
+            padding: 1.2rem 2.5rem;
+            background: var(--color-primary);
+            color: var(--color-secondary);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+            .load-more-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px var(--color-glow);
+            }
+
+        /* ПРАВИЛА И РЕКОМЕНДАЦИИ */
+        .rules-section {
+            background: var(--color-surface-light);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-top: 4rem;
+            border-left: 5px solid var(--color-primary);
+        }
+
+        .rules-title {
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rules-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+            .rules-list li {
+                margin-bottom: 1rem;
+                padding-left: 2rem;
+                position: relative;
+                color: var(--color-text);
+                line-height: 1.6;
+            }
+
+                .rules-list li:before {
+                    content: '✓';
+                    color: var(--color-primary);
+                    position: absolute;
+                    left: 0;
+                    font-weight: bold;
+                }
+
+        /* ИНФО ОТСУТСТВИЯ АРТОВ */
+        .empty-gallery {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--color-text-light);
+            font-size: 1.2rem;
+        }
+
+            .empty-gallery i {
+                font-size: 4rem;
+                margin-bottom: 1.5rem;
+                color: var(--color-primary);
+                opacity: 0.5;
+            }
+
+        /* КНОПКА ТЕМЫ */
+        .theme-toggle-gallery {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            background: var(--color-primary);
+            color: var(--color-secondary);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+            .theme-toggle-gallery:hover {
+                transform: rotate(45deg) scale(1.1);
+                box-shadow: 0 10px 30px var(--color-glow);
+            }
+
+        /* СТИЛИ ДЛЯ ПАНЕЛИ ТЕМ НА СТРАНИЦЕ ГАЛЕРЕИ */
+        .theme-panel-gallery {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--color-surface);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            color: var(--color-text);
+        }
+
+            .theme-panel-gallery.active {
+                right: 0;
+            }
+
+        .theme-panel-header-gallery {
+            padding: 20px;
+            background: var(--color-primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .theme-panel-content-gallery {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .theme-grid-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .theme-option-gallery {
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px;
+            background: var(--color-background);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .theme-option-gallery.active {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 10px var(--color-primary);
+            }
+
+        .theme-preview-gallery {
+            width: 100%;
+            height: 60px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .volume-slider-gallery {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .panel-overlay-gallery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+        }
+
+            .panel-overlay-gallery.active {
+                display: block;
+            }
+
+        .close-btn-gallery {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .volume-control-gallery {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .volume-icon-gallery {
+            color: var(--color-primary);
+        }
+
+        .volume-value-gallery {
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .control-btn-gallery {
+            width: 100%;
+            padding: 10px;
+            background: var(--color-hover);
+            border: 1px solid var(--color-primary);
+            color: var(--color-text);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+            .control-btn-gallery:hover {
+                background: var(--color-primary);
+                color: var(--color-secondary);
+            }
+
+        .theme-panel-footer-gallery {
+            padding: 15px 20px;
+            border-top: 1px solid var(--color-border);
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 768px) {
+            .gallery-container {
+                padding: 1rem;
+            }
+
+            .gallery-title {
+                font-size: 2.2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .email-link {
+                font-size: 1.1rem;
+                padding: 1rem 1.5rem;
+            }
+
+            .contact-panel {
+                padding: 1.5rem;
+            }
+
+            .theme-toggle-gallery {
+                bottom: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .theme-panel-gallery {
+                width: 100%;
+                right: -100%;
+            }
+
+            .theme-grid-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-btn {
+                text-align: center;
+            }
+
+            .theme-grid-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="theme-amega">
+
+    <!-- ШАПКА (такая же как на главной) -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="images/Лого.png" alt="Логотип АМЕГА" class="logo-image">
+            <h1 class="logo-text">АМЕГА</h1>
+        </div>
+
+        <div class="quote-container">
+            <p class="quote">"Творчество — мост между мирами"</p>
+            <p class="signature">— Сообщество АМЕГА</p>
+        </div>
+    </header>
+
+    <!-- ОСНОВНОЕ СОДЕРЖИМОЕ -->
+    <main class="main-content">
+        <div class="gallery-container">
+
+            <!-- КНОПКА НАЗАД -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <a href="index.html" class="back-btn" style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: var(--color-primary);
+                    text-decoration: none;
+                    font-size: 1.1rem;
+                    padding: 0.8rem 1.5rem;
+                    border: 2px solid var(--color-primary);
+                    border-radius: 8px;
+                    transition: all 0.3s ease;
+                    background: rgba(10, 25, 47, 0.8);
+                ">
+                    ← На главную
+                </a>
+            </div>
+
+            <!-- ЗАГОЛОВОК ГАЛЕРЕИ -->
+            <div class="gallery-header">
+                <h1 class="gallery-title">Галерея фан-артов</h1>
+                <p class="gallery-subtitle">
+                    Здесь собраны работы талантливых художников, вдохновлённых вселенной БмШГ.
+                    Присоединяйтесь к сообществу и делитесь своим творчеством!
+                </p>
+            </div>
+
+            <!-- ПАНЕЛЬ С КОНТАКТАМИ -->
+            <div class="contact-panel">
+                <h2 class="contact-title">
+                    <i class="fas fa-envelope"></i>
+                    Хочешь добавить свой арт?
+                </h2>
+                <p style="color: var(--color-text); margin-bottom: 1.5rem;">
+                    Присылайте свои работы на Telegram бота (предложку):
+                </p>
+
+                <a href="https://t.me/AMEGA_SGwB_bot" class="email-link">
+                    <i class="fas fa-paper-plane"></i>
+                    @AMEGA_SGwB_bot
+                </a>
+
+                <p class="contact-note">
+                    ✦ Укажите имя автора и название работы ✦<br>
+                    ✦ Разрешённые форматы: JPG, PNG, GIF ✦<br>
+                    ✦ Максимальный размер: 50 MB ✦
+                </p>
+            </div>
+
+            <!-- ФИЛЬТРЫ -->
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">Все работы</button>
+                <button class="filter-btn" data-filter="characters">Персонажи</button>
+                <button class="filter-btn" data-filter="creatures">Существа</button>
+                <button class="filter-btn" data-filter="planets">Планеты</button>
+                <button class="filter-btn" data-filter="scenes">Сцены</button>
+                <button class="filter-btn" data-filter="digital">Цифровые</button>
+                <button class="filter-btn" data-filter="traditional">Традиционные</button>
+            </div>
+
+            <!-- СЕТКА АРТОВ -->
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- АРТ 1 -->
+                <div class="art-card" data-tags="characters digital">
+                    <div class="art-image-container">
+                        <img src="images/fanart/0.jpg" alt="Нулёнышь" class="art-image">
+                        <div class="art-overlay">
+                            <div class="art-tags">
+                                <span class="art-tag">Персонажи</span>
+                                <span class="art-tag">Цифровой арт</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="art-info">
+                        <h3 class="art-title">Нулёнышь</h3>
+                        <p class="art-author">
+                            <i class="fas fa-user"></i>
+                             Помощник создателя.
+                        </p>
+                        <p class="art-date">24 марта 2026</p>
+                        <p class="art-description" style="color: var(--color-text-light); font-size: 0.9rem; margin-top: 0.5rem;">
+                            Просто невдуплёнышь нулёнышь!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- АРТ 2 -->
+                <div class="art-card" data-tags="creatures traditional">
+                    <div class="art-image-container">
+                        <img src="images/fanart/1.png" alt="Мушка летушка" class="art-image">
+                        <div class="art-overlay">
+                            <div class="art-tags">
+                                <span class="art-tag">Персонажи</span>
+                                <span class="art-tag">Цифровой арт</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="art-info">
+                        <h3 class="art-title">Неожиданный коллаб</h3>
+                        <p class="art-author">
+                            <i class="fas fa-user"></i>
+                            Помощник создателя
+                        </p>
+                        <p class="art-date">24 марта 2026</p>
+                        <p class="art-description" style="color: var(--color-text-light); font-size: 0.9rem; margin-top: 0.5rem;">
+                            Кто, чёрт возьми, сделал это?!?!?!?!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- МОЖНО ДОБАВИТЬ БОЛЬШЕ АРТОВ -->
+            </div>
+
+            <!-- КНОПКА ЗАГРУЗКИ ЕЩЁ -->
+            <div class="load-more">
+                <button class="load-more-btn" id="loadMoreBtn">
+                    <i class="fas fa-sync-alt"></i>
+                    Загрузить ещё работы
+                </button>
+            </div>
+
+            <!-- ПРАВИЛА И РЕКОМЕНДАЦИИ -->
+            <div class="rules-section">
+                <h2 class="rules-title">
+                    <i class="fas fa-scroll"></i>
+                    Правила и рекомендации
+                </h2>
+                <ul class="rules-list">
+                    <li>Работа должна быть оригинальной и созданной вами</li>
+                    <li>Разрешены как цифровые, так и традиционные техники</li>
+                    <li>Указывайте своё имя или псевдоним для авторства</li>
+                    <li>Максимальный размер файла — 50 MB</li>
+                    <li>Разрешённые форматы: JPG, PNG, GIF (статичные или анимированные)</li>
+                    <li>Работа должна быть связана с вселенной АМЕГА</li>
+                    <li>Авторские права остаются за художником</li>
+                    <li>Администрация оставляет за собой право не публиковать работы, нарушающие правила</li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- КНОПКА СМЕНЫ ТЕМЫ -->
+    <button class="theme-toggle-gallery" id="theme-toggle-gallery" title="Сменить тему (T)">
+        <i class="fas fa-palette"></i>
+    </button>
+
+    <!-- АУДИОПЛЕЕР ДЛЯ ФОНОВОЙ МУЗЫКИ -->
+    <audio id="theme-music" loop>
+        <!-- Источник будет меняться через JavaScript -->
+    </audio>
+
+    <!-- ПАНЕЛЬ ВЫБОРА ТЕМ -->
+    <div id="theme-panel-gallery" class="theme-panel-gallery">
+        <div class="theme-panel-header-gallery">
+            <h3><i class="fas fa-universal-access"></i> Настройки темы</h3>
+            <button id="close-panel-gallery" class="close-btn-gallery" aria-label="Закрыть панель">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="theme-panel-content-gallery">
+            <!-- Блок выбора темы -->
+            <div class="theme-section-gallery">
+                <h4><i class="fas fa-globe"></i> Выберите тему:</h4>
+                <div class="theme-grid-gallery">
+                    <!-- АМЕГА -->
+                    <button class="theme-option-gallery active" data-theme="amega" aria-label="Тема АМЕГА (базовая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #3498db, #2ecc71);"></div>
+                        <span>АМЕГА</span>
+                    </button>
+
+                    <!-- Окромы -->
+                    <button class="theme-option-gallery" data-theme="okroma" aria-label="Тема Окромы (красная)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #D32F2F, #FF5252);"></div>
+                        <span>Окромы</span>
+                    </button>
+
+                    <!-- Плауэро -->
+                    <button class="theme-option-gallery" data-theme="plauero" aria-label="Тема Плауэро (оранжевая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #FFC996, #FF9800);"></div>
+                        <span>Плауэро</span>
+                    </button>
+
+                    <!-- Таранте -->
+                    <button class="theme-option-gallery" data-theme="tarante" aria-label="Тема Таранте (зелёная)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #A0D8A2, #27ae60);"></div>
+                        <span>Таранте</span>
+                    </button>
+
+                    <!-- Шань-Лу -->
+                    <button class="theme-option-gallery" data-theme="shan-lu" aria-label="Тема Шань-Лу (жёлтая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #FFE466, #FFCA28);"></div>
+                        <span>Шань-Лу</span>
+                    </button>
+
+                    <!-- Акрары -->
+                    <button class="theme-option-gallery" data-theme="akra" aria-label="Тема Акрары (голубая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #99E4FF, #1abc9c);"></div>
+                        <span>Акрары</span>
+                    </button>
+
+                    <!-- Хаяси -->
+                    <button class="theme-option-gallery" data-theme="hayashi" aria-label="Тема Хаяси (фиолетовая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #9B59B6, #6c5ce7);"></div>
+                        <span>Хаяси</span>
+                    </button>
+
+                    <!-- Шутьяма -->
+                    <button class="theme-option-gallery" data-theme="shutyam" aria-label="Тема Шутьяма (коричневая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #AE7067, #8E554D);"></div>
+                        <span>Шутьяма</span>
+                    </button>
+
+                    <!-- Темени -->
+                    <button class="theme-option-gallery" data-theme="temeni" aria-label="Тема Темени (тёмно-серая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #202020, #9D59B2);"></div>
+                        <span>Темени</span>
+                    </button>
+
+                    <!-- Изгойка -->
+                    <button class="theme-option-gallery" data-theme="izgoika" aria-label="Тема Изгойка (лаймовая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #BAFF8F, #FFE466);"></div>
+                        <span>Изгойка</span>
+                    </button>
+
+                    <!-- Нулевое пространство -->
+                    <button class="theme-option-gallery" data-theme="null-space" aria-label="Тема Нулевое пространство (чёрно-белая)">
+                        <div class="theme-preview-gallery" style="background: linear-gradient(135deg, #000000, #FFFFFF);"></div>
+                        <span>Нулевое пространство</span>
+                    </button>
+
+                    <!-- Секретная тема (скрыта) -->
+                    <button class="theme-option-gallery secret-theme-gallery" data-theme="secret" aria-label="Секретная тема" style="display: none;">
+                        <div class="theme-preview-gallery secret-preview-gallery"></div>
+                        <span>???</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Блок управления звуком -->
+            <div class="volume-section-gallery">
+                <h4><i class="fas fa-music"></i> Громкость вселенной:</h4>
+                <div class="volume-control-gallery">
+                    <i class="fas fa-volume-mute volume-icon-gallery"></i>
+                    <input type="range" id="volume-slider-gallery" class="volume-slider-gallery" min="0" max="100" value="50" aria-label="Регулятор громкости">
+                    <i class="fas fa-volume-up volume-icon-gallery"></i>
+                    <span id="volume-value-gallery" class="volume-value-gallery">50%</span>
+                </div>
+                <div class="music-info-gallery">
+                    <span id="current-track-gallery">Трек: АМЕГА (базовая тема)</span>
+                </div>
+            </div>
+
+            <!-- Дополнительные настройки -->
+            <div class="extra-controls-gallery">
+                <button id="reset-theme-btn-gallery" class="control-btn-gallery">
+                    <i class="fas fa-undo"></i> Сбросить к базовой
+                </button>
+            </div>
+        </div>
+
+        <div class="theme-panel-footer-gallery">
+            <small>Текущая вселенная: <span id="current-theme-name-gallery">АМЕГА</span></small>
+        </div>
+    </div>
+
+    <!-- ОВЕРЛЕЙ ДЛЯ ЗАКРЫТИЯ ПАНЕЛИ -->
+    <div id="panel-overlay-gallery" class="panel-overlay-gallery"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Галерея загружена, запускаем скрипт...');
+
+            // === ФИЛЬТРАЦИЯ АРТОВ ===
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const artCards = document.querySelectorAll('.art-card');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.dataset.filter;
+
+                    artCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.tags.includes(filter)) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 10);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+
+            // ЗАГРУЗКА ЕЩЁ АРТОВ
+            loadMoreBtn.addEventListener('click', function () {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check"></i> Все работы загружены';
+                    this.style.background = 'var(--color-success)';
+
+                    const message = document.createElement('div');
+                    message.textContent = 'Пока это все работы! Ждём ваши арты!';
+                    message.style.cssText = `
+                            text-align: center;
+                            color: var(--color-primary);
+                            padding: 1rem;
+                            margin-top: 1rem;
+                            font-style: italic;
+                        `;
+                    this.parentNode.appendChild(message);
+                }, 1500);
+            });
+
+            // АНИМАЦИЯ ПРИ ЗАГРУЗКЕ
+            artCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + index * 100);
+            });
+
+            // КЛИК ПО КАРТОЧКЕ
+            artCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    if (!e.target.classList.contains('art-tag')) {
+                        console.log('Открыть арт:', this.querySelector('.art-title').textContent);
+                    }
+                });
+            });
+
+            // === ЭЛЕМЕНТЫ ДЛЯ СИСТЕМЫ ТЕМ И МУЗЫКИ ===
+            const themeToggleBtn = document.getElementById('theme-toggle-gallery');
+            const themePanel = document.getElementById('theme-panel-gallery');
+            const closePanelBtn = document.getElementById('close-panel-gallery');
+            const panelOverlay = document.getElementById('panel-overlay-gallery');
+            const themeOptions = document.querySelectorAll('.theme-option-gallery');
+            const volumeSlider = document.getElementById('volume-slider-gallery');
+            const volumeValue = document.getElementById('volume-value-gallery');
+            const themeMusic = document.getElementById('theme-music');
+            const currentTrack = document.getElementById('current-track-gallery');
+            const currentThemeName = document.getElementById('current-theme-name-gallery');
+            const resetThemeBtn = document.getElementById('reset-theme-btn-gallery');
+            const secretThemeBtn = document.querySelector('.secret-theme-gallery');
+            const nullSpaceThemeBtn = document.querySelector('.theme-option-gallery[data-theme="null-space"]');
+
+            console.log('Элементы темы:', { themeToggleBtn, themePanel, themeMusic });
+
+            // === МУЗЫКА ДЛЯ ТЕМ ===
+            const themeMusicMap = {
+                'amega': 'audio/theme_amega.mp3',
+                'okroma': 'audio/theme_okroma.mp3',
+                'plauero': 'audio/theme_plauero.mp3',
+                'tarante': 'audio/theme_tarante.mp3',
+                'shan-lu': 'audio/theme_shan_lu.mp3',
+                'akra': 'audio/theme_akra.mp3',
+                'hayashi': 'audio/theme_hayashi.mp3',
+                'shutyam': 'audio/theme_shutyam.mp3',
+                'temeni': 'audio/theme_temeni.mp3',
+                'izgoika': 'audio/theme_izgoika.mp3',
+                'null-space': 'audio/theme_null_space.mp3',
+                'secret': 'audio/theme_secret.mp3'
+            };
+
+            // === НАЗВАНИЯ ТЕМ ===
+            const themeNames = {
+                'amega': 'АМЕГА',
+                'okroma': 'Окромы',
+                'plauero': 'Плауэро',
+                'tarante': 'Таранте',
+                'shan-lu': 'Шань-Лу',
+                'akra': 'Акрары',
+                'hayashi': 'Хаяси',
+                'shutyam': 'Шутьяма',
+                'temeni': 'Темени',
+                'izgoika': 'Изгойка',
+                'null-space': 'Нулевое пространство',
+                'secret': '??? (Секретная)'
+            };
+
+            // === ФУНКЦИИ СИСТЕМЫ ТЕМ ===
+            function openThemePanel() {
+                console.log('Открываем панель тем');
+                if (!themePanel) {
+                    console.error('Панель тем не найдена!');
+                    return;
+                }
+                themePanel.classList.add('active');
+                if (panelOverlay) panelOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                themePanel.style.right = '';
+            }
+
+            function closeThemePanel() {
+                console.log('Закрываем панель тем');
+                if (!themePanel) return;
+                themePanel.classList.remove('active');
+                if (panelOverlay) panelOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                themePanel.style.right = '-600px';
+            }
+
+            function applyTheme(themeName) {
+                console.log('Применяем тему:', themeName);
+                document.body.className = '';
+                document.body.classList.add(`theme-${themeName}`);
+
+                themeOptions.forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.theme === themeName) {
+                        option.classList.add('active');
+                    }
+                });
+
+                localStorage.setItem('site-theme', themeName);
+
+                if (currentThemeName) {
+                    currentThemeName.textContent = themeNames[themeName];
+                }
+
+                changeMusicForTheme(themeName);
+            }
+
+            function changeMusicForTheme(themeName) {
+                const musicSrc = themeMusicMap[themeName];
+                console.log('Меняем музыку на:', musicSrc);
+                if (musicSrc && themeMusic) {
+                    if (currentTrack) {
+                        currentTrack.textContent = `Трек: ${themeNames[themeName]}`;
+                    }
+
+                    const currentSrc = themeMusic.src ? themeMusic.src.split('/').pop() : '';
+                    const newSrc = musicSrc.split('/').pop();
+
+                    if (currentSrc !== newSrc) {
+                        themeMusic.pause();
+                        themeMusic.src = musicSrc;
+                        themeMusic.volume = volumeSlider ? volumeSlider.value / 100 : 0.5;
+
+                        themeMusic.play().catch(e => {
+                            console.log("Автовоспроизведение заблокировано. Музыка запустится после клика.");
+                        });
+                    }
+                }
+            }
+
+            function loadSavedSettings() {
+                console.log('Загружаем сохранённые настройки...');
+                const savedTheme = localStorage.getItem('site-theme') || 'amega';
+                const unlockedThemes = JSON.parse(localStorage.getItem('unlocked-themes') || '[]');
+
+                if (savedTheme === 'null-space' && !unlockedThemes.includes('null-space')) {
+                    console.log('Тема null-space не разблокирована, применяем amega');
+                    applyTheme('amega');
+                    localStorage.setItem('site-theme', 'amega');
+                } else if (savedTheme === 'secret' && !unlockedThemes.includes('secret')) {
+                    console.log('Тема secret не разблокирована, применяем amega');
+                    applyTheme('amega');
+                    localStorage.setItem('site-theme', 'amega');
+                } else {
+                    console.log('Применяем сохранённую тему:', savedTheme);
+                    applyTheme(savedTheme);
+                }
+
+                const savedVolume = localStorage.getItem('site-volume');
+                if (savedVolume !== null && volumeSlider) {
+                    volumeSlider.value = savedVolume;
+                    if (volumeValue) volumeValue.textContent = `${savedVolume}%`;
+                    if (themeMusic) {
+                        themeMusic.volume = savedVolume / 100;
+                    }
+                } else if (volumeSlider && volumeValue) {
+                    volumeValue.textContent = `${volumeSlider.value}%`;
+                }
+            }
+
+            function loadUnlockedThemes() {
+                const unlockedThemes = JSON.parse(localStorage.getItem('unlocked-themes') || '[]');
+                console.log('Разблокированные темы:', unlockedThemes);
+
+                if (nullSpaceThemeBtn) nullSpaceThemeBtn.style.display = 'none';
+                if (secretThemeBtn) secretThemeBtn.style.display = 'none';
+
+                unlockedThemes.forEach(themeName => {
+                    const themeButton = document.querySelector(`.theme-option-gallery[data-theme="${themeName}"]`);
+                    if (themeButton) {
+                        console.log('Показываем тему:', themeName);
+                        themeButton.style.display = 'block';
+                    }
+                });
+            }
+
+            function unlockSecretTheme(themeName) {
+                const themeButton = document.querySelector(`.theme-option-gallery[data-theme="${themeName}"]`);
+                if (themeButton) {
+                    themeButton.style.display = 'block';
+
+                    const unlockedThemes = JSON.parse(localStorage.getItem('unlocked-themes') || '[]');
+                    if (!unlockedThemes.includes(themeName)) {
+                        unlockedThemes.push(themeName);
+                        localStorage.setItem('unlocked-themes', JSON.stringify(unlockedThemes));
+                    }
+
+                    showNotification(`Секретная тема "${themeNames[themeName]}" разблокирована!`);
+                }
+            }
+
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.textContent = message;
+                notification.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: linear-gradient(135deg, var(--color-primary), var(--color-border));
+                        color: var(--color-background);
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        z-index: 10001;
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                        animation: notificationFade 3s ease-in-out;
+                        font-weight: bold;
+                        border: 2px solid var(--color-primary);
+                    `;
+
+                const style = document.createElement('style');
+                style.textContent = `
+                        @keyframes notificationFade {
+                            0% { opacity: 0; transform: translateY(-20px); }
+                            10% { opacity: 1; transform: translateY(0); }
+                            90% { opacity: 1; transform: translateY(0); }
+                            100% { opacity: 0; transform: translateY(-20px); }
+                        }
+                    `;
+
+                document.head.appendChild(style);
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    if (document.body.contains(notification)) document.body.removeChild(notification);
+                    if (document.head.contains(style)) document.head.removeChild(style);
+                }, 3000);
+            }
+
+            function checkSecretCodes() {
+                const secretThemes = {
+                    "НОЛЬ": "null-space",
+                    "РАДУГА": "secret",
+                    "ЧЕРНАЯ ДЫРА": "null-space",
+                    "РАДУЖНАЯ": "secret",
+                    "ZERO": "null-space",
+                    "RAINBOW": "secret"
+                };
+
+                Object.keys(secretThemes).forEach(code => {
+                    const lowerCode = code.toLowerCase();
+                    const storedCodes = JSON.parse(localStorage.getItem('entered-secret-codes') || '[]');
+                    if (storedCodes.includes(lowerCode)) {
+                        unlockSecretTheme(secretThemes[code]);
+                    }
+                });
+            }
+
+            // === ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ ТЕМ ===
+            function initThemeSystem() {
+                console.log('Инициализируем систему тем...');
+
+                if (!themeToggleBtn || !themePanel) {
+                    console.error('Не найдены основные элементы системы тем!');
+                    return;
+                }
+
+                themeToggleBtn.addEventListener('click', openThemePanel);
+                if (closePanelBtn) {
+                    closePanelBtn.addEventListener('click', closeThemePanel);
+                }
+                if (panelOverlay) {
+                    panelOverlay.addEventListener('click', closeThemePanel);
+                }
+
+                themeOptions.forEach(option => {
+                    option.addEventListener('click', function () {
+                        if (this.style.display !== 'none') {
+                            const themeName = this.dataset.theme;
+                            applyTheme(themeName);
+                        }
+                    });
+                });
+
+                if (volumeSlider) {
+                    volumeSlider.addEventListener('input', function () {
+                        const volume = this.value;
+                        if (volumeValue) volumeValue.textContent = `${volume}%`;
+
+                        if (themeMusic) {
+                            themeMusic.volume = volume / 100;
+                        }
+
+                        localStorage.setItem('site-volume', volume);
+                    });
+                }
+
+                if (resetThemeBtn) {
+                    resetThemeBtn.addEventListener('click', function () {
+                        applyTheme('amega');
+                    });
+                }
+
+                loadSavedSettings();
+                loadUnlockedThemes();
+                checkSecretCodes();
+
+                document.addEventListener('click', function initMusic() {
+                    if (themeMusic && themeMusic.paused) {
+                        themeMusic.play().catch(e => console.log("Не удалось запустить музыку"));
+                    }
+                    document.removeEventListener('click', initMusic);
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                        const themes = ['amega', 'okroma', 'plauero', 'tarante', 'shan-lu', 'akra', 'hayashi', 'shutyam', 'temeni', 'izgoika'];
+                        const currentTheme = document.body.className.replace('theme-', '');
+                        let currentIndex = themes.indexOf(currentTheme);
+                        if (currentIndex === -1) currentIndex = 0;
+                        const nextIndex = (currentIndex + 1) % themes.length;
+                        applyTheme(themes[nextIndex]);
+                    }
+                });
+            }
+
+            // Запускаем систему тем
+            initThemeSystem();
+
+            // === ФИКСЫ ДЛЯ ПАНЕЛИ ===
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && themePanel && themePanel.classList.contains('active')) {
+                    closeThemePanel();
+                }
+            });
+
+            if (themePanel) {
+                themePanel.style.right = '-600px';
+            }
+
+            console.log('Скрипт успешно загружен!');
+        });
+    </script>
+
+</body>
+</html>

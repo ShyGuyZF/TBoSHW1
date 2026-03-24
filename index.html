@@ -1,0 +1,2855 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АМЕГА - Исследование вселенной</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Стили для системы тем (добавлю в CSS позже) */
+        .theme-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--color-surface);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            color: var(--color-text);
+        }
+
+            .theme-panel.active {
+                right: 0;
+            }
+
+        .theme-panel-header {
+            padding: 20px;
+            background: var(--color-primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .theme-panel-content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .theme-option {
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px;
+            background: var(--color-background);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .theme-option.active {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 10px var(--color-primary);
+            }
+
+        .theme-preview {
+            width: 100%;
+            height: 60px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .volume-slider {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+            .panel-overlay.active {
+                display: block;
+            }
+
+        .theme-toggle-btn {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="theme-amega">
+
+    <header class="header">
+        <div class="logo-container">
+            <img src="images/Лого.png" alt="Логотип АМЕГА" class="logo-image">
+            <h1 class="logo-text">АМЕГА</h1>
+        </div>
+
+        <div class="quote-container">
+            <p class="quote">"Иная форма жизни? Уже сейчас!"</p>
+            <p class="signature">— Доктор А.С. Габров, глава АМЕГА</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <aside class="sidebar">
+            <button class="sidebar-btn" id="about-btn">
+                <img src="images/Иконка_О_нас.png" alt="" class="btn-icon">
+                О нас
+            </button>
+            <button class="sidebar-btn" id="creatures-btn">
+                <img src="images/Иконка_Существа.png" alt="" class="btn-icon">
+                Фауна
+            </button>
+            <button class="sidebar-btn active" id="planets-btn">
+                <img src="images/Иконка_Планеты.png" alt="" class="btn-icon">
+                Планеты
+            </button>
+            <button class="sidebar-btn" id="resources-btn">
+                <img src="images/Иконка_Ресурсы.png" alt="" class="btn-icon">
+                Ресурсы
+            </button>
+            <button class="sidebar-btn" id="fauna-btn">
+                <img src="images/Иконка_Фауна.png" alt="" class="btn-icon">
+                Флора
+            </button>
+            <button class="sidebar-btn" id="concepts-btn">
+                <img src="images/Иконка_Понятия.png" alt="" class="btn-icon">
+                Классы 
+            </button>
+            <button class="sidebar-btn" id="secret-info-btn">
+                <img src="images/Иконка_Секрет.png" alt="" class="btn-icon">
+                Секретная информация
+            </button>
+
+            <div class="divider"></div>
+
+            <button class="sidebar-btn" id="story-btn">
+                <img src="images/Иконка_Главная.png" alt="Сюжет" class="btn-icon">
+                Сюжет
+            </button>
+            <button class="sidebar-btn" id="history-btn">
+                <img src="images/Иконка_История.png" alt="" class="btn-icon">
+                История сайта
+            </button>
+            <button class="sidebar-btn" id="gallery-btn">
+                <img src="images/Иконка_Галерея.png" alt="" class="btn-icon">
+                Галерея
+            </button>
+            <!-- ИЗМЕНЕНИЕ: Кнопка теперь открывает панель тем -->
+            <button class="sidebar-btn theme-toggle-btn" id="theme-toggle-btn">
+                <img src="images/Иконка_Тема.png" alt="" class="btn-icon">
+                Темы сайта
+            </button>
+        </aside>
+
+        <section class="content-area">
+            <!-- Контент для кнопки "Существа" -->
+            <div class="creatures-content" id="creatures-content">
+                <div class="filters-header">
+                    <h2>Архив существ</h2>
+                    <p class="content-description">Каталог зарегистрированных внеземных форм жизни. Используйте фильтры для поиска.</p>
+
+                    <!-- Панель фильтров и поиска -->
+                    <div class="filters-panel">
+                        <div class="search-group">
+                            <input type="text" id="creature-search" placeholder="Поиск по имени существа..." class="search-input">
+                            <button id="search-btn" class="filter-btn">
+                                <img src="images/Иконка_Поиск.png" alt="Поиск" class="btn-icon">
+                                Найти
+                            </button>
+                        </div>
+
+                        <div class="filter-group">
+                            <select id="planet-filter" class="filter-select">
+                                <option value="all">Все планеты</option>
+                                <option value="Окрома">Окрома</option>
+                                <option value="Плауэро">Плауэро</option>
+                                <option value="Таранте">Таранте</option>
+                                <option value="Шань-Лу">Шань-Лу</option>
+                                <option value="Акрара">Акрара</option>
+                                <option value="Хаяси">Хаяси</option>
+                                <option value="Шутьям">Шутьям</option>
+                                <option value="Темень">Темень</option>
+                                <option value="Изгойка">Изгойка</option>
+                                <option value="Нет планеты">Нет планеты</option>
+                            </select>
+
+                            <button id="sort-btn" class="filter-btn">
+                                <img src="images/Иконка_Сортировка.png" alt="Сортировка" class="btn-icon">
+                                Сортировать по планете
+                            </button>
+
+                            <button id="reset-btn" class="filter-btn reset">
+                                <img src="images/Иконка_Сброс.png" alt="Сброс" class="btn-icon">
+                                Сбросить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="creatures-grid">
+                    <!-- Существо 1 -->
+                    <div class="creature-card" data-creature-id="1" data-planet="Окрома">
+                        <a href="articles/creature_1.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/мушка_летушка.png" alt="Мушка летушка">
+                                <span class="creature-number">#001</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Мушка Летушка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 2 -->
+                    <div class="creature-card" data-creature-id="2" data-planet="Окрома">
+                        <a href="articles/creature_2.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Таракан_Панцирьносетс.png" alt="Таракан Панцирьносетс">
+                                <span class="creature-number">#002</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Таракан Панцирьносетс</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Плауэро" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 3 -->
+                    <div class="creature-card" data-creature-id="3" data-planet="Окрома">
+                        <a href="articles/creature_3.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Красная_Палочка.png" alt="Красная Палочка">
+                                <span class="creature-number">#003</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Красная Палочка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 4 -->
+                    <div class="creature-card" data-creature-id="4" data-planet="Акрара">
+                        <a href="articles/creature_4.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Лапкалитка.png" alt="Имя">
+                                <span class="creature-number">#004</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Лапкалитка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 5 -->
+                    <div class="creature-card" data-creature-id="5" data-planet="Окрома">
+                        <a href="articles/creature_5.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Ротопорус.png" alt="Имя">
+                                <span class="creature-number">#005</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Ротопорус</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 6 -->
+                    <div class="creature-card" data-creature-id="6" data-planet="Окрома">
+                        <a href="articles/creature_6.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Глазная_Шишка.png" alt="Имя">
+                                <span class="creature-number">#006</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Глазная Шишка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 7 -->
+                    <div class="creature-card" data-creature-id="7" data-planet="Окрома">
+                        <a href="articles/creature_7.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Заплетай.png" alt="Имя">
+                                <span class="creature-number">#007</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Заплетай</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 8 -->
+                    <div class="creature-card" data-creature-id="8" data-planet="Окрома">
+                        <a href="articles/creature_8.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Дрондула.png" alt="Имя">
+                                <span class="creature-number">#008</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Дрондула</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 9 -->
+                    <div class="creature-card" data-creature-id="9" data-planet="Акрара">
+                        <a href="articles/creature_9.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Неоновая_Медузка.png" alt="Имя">
+                                <span class="creature-number">#009</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Неоновая Медузка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="акрара" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 10 -->
+                    <div class="creature-card" data-creature-id="10" data-planet="Окрома">
+                        <a href="articles/creature_10.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Слизистая_Лягушка.png" alt="Имя">
+                                <span class="creature-number">#010</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Слизистая Лягушка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 11 -->
+                    <div class="creature-card" data-creature-id="11" data-planet="Таранте">
+                        <a href="articles/creature_11.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Змеевидная_Пиявка.png" alt="Имя">
+                                <span class="creature-number">#011</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Змеевидная Пиявка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_3.png" alt="Таранте" class="planet-icon">
+                                    <span class="planet-name">Таранте</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 12 -->
+                    <div class="creature-card" data-creature-id="12" data-planet="Плауэро">
+                        <a href="articles/creature_12.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Мраморная_Бабочка.png" alt="Имя">
+                                <span class="creature-number">#012</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Мраморная Бабочка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_2.png" alt="Плауэро" class="planet-icon">
+                                    <span class="planet-name">Плауэро</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 13 -->
+                    <div class="creature-card" data-creature-id="13" data-planet="Плауэро">
+                        <a href="articles/creature_13.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Москит_Детоносец.png" alt="Имя">
+                                <span class="creature-number">#013</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Москит Детоносец</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_2.png" alt="Плауэро" class="planet-icon">
+                                    <span class="planet-name">Плауэро</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 14 -->
+                    <div class="creature-card" data-creature-id="14" data-planet="Окрома">
+                        <a href="articles/creature_14.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Джаггернаут.png" alt="Имя">
+                                <span class="creature-number">#014</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Джаггернаут</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 15 -->
+                    <div class="creature-card" data-creature-id="15" data-planet="Окрома">
+                        <a href="articles/creature_15.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Прыщик.png" alt="Имя">
+                                <span class="creature-number">#015</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Прыщик</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 16 -->
+                    <div class="creature-card" data-creature-id="16" data-planet="Акрара">
+                        <a href="articles/creature_16.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Светохватка.png" alt="Имя">
+                                <span class="creature-number">#016</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Светохватка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 17 -->
+                    <div class="creature-card" data-creature-id="17" data-planet="Шань-Лу">
+                        <a href="articles/creature_17.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Огонёк_Судного_Дня.png" alt="Имя">
+                                <span class="creature-number">#017</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Огонёк Судного Дня</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_4.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шань-Лу</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 18 -->
+                    <div class="creature-card" data-creature-id="18" data-planet="Шутьям">
+                        <a href="articles/creature_18.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Ветреный_Скат.png" alt="Имя">
+                                <span class="creature-number">#018</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Ветреный Скат</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_7.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шутьям</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 19 -->
+                    <div class="creature-card" data-creature-id="19" data-planet="Хаяси">
+                        <a href="articles/creature_19.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Глазноиз.png" alt="Имя">
+                                <span class="creature-number">#019</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Глазноиз</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_6.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Хаяси</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 20 -->
+                    <div class="creature-card" data-creature-id="20" data-planet="Окрома">
+                        <a href="articles/creature_20.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Прыщавый_Панцирь.png" alt="Имя">
+                                <span class="creature-number">#020</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Прыщавый Панцирь</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 21 -->
+                    <div class="creature-card" data-creature-id="21" data-planet="Шутьям">
+                        <a href="articles/creature_21.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Гигаходка.png" alt="Имя">
+                                <span class="creature-number">#021</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Гигаходка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_7.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шутьям</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 22 -->
+                    <div class="creature-card" data-creature-id="22" data-planet="Нет планеты">
+                        <a href="articles/creature_22.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Световой_Плащевик.png" alt="Имя">
+                                <span class="creature-number">#022</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Световой Плащевик</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_10.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Нет планеты</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 23 -->
+                    <div class="creature-card" data-creature-id="23" data-planet="Шань-Лу">
+                        <a href="articles/creature_23.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Хомя.png" alt="Имя">
+                                <span class="creature-number">#023</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Хомя</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_4.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шань-Лу</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 24 -->
+                    <div class="creature-card" data-creature-id="24" data-planet="Плауэро">
+                        <a href="articles/creature_24.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Летающая_Опухоль.png" alt="Имя">
+                                <span class="creature-number">#024</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Летающая Опухоль</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_2.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Плауэро</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 25 -->
+                    <div class="creature-card" data-creature-id="25" data-planet="Таранте">
+                        <a href="articles/creature_25.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Листвик.png" alt="Имя">
+                                <span class="creature-number">#025</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Листвик</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_3.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Таранте</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 26 -->
+                    <div class="creature-card" data-creature-id="26" data-planet="Акрара">
+                        <a href="articles/creature_26.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Рыба-Пасть.png" alt="Имя">
+                                <span class="creature-number">#026</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Рыба-Пасть</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 27 -->
+                    <div class="creature-card" data-creature-id="27" data-planet="Акрара">
+                        <a href="articles/creature_27.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Планктоног.png" alt="Имя">
+                                <span class="creature-number">#027</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Планктоног</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 28 -->
+                    <div class="creature-card" data-creature-id="28" data-planet="Акрара">
+                        <a href="articles/creature_28.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Глубоководный_Титан.png" alt="Имя">
+                                <span class="creature-number">#028</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Глубоководный Титан</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 29 -->
+                    <div class="creature-card" data-creature-id="29" data-planet="Акрара">
+                        <a href="articles/creature_29.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Морской_Мимик.png" alt="Имя">
+                                <span class="creature-number">#029</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Морской Мимик</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 30 -->
+                    <div class="creature-card" data-creature-id="30" data-planet="Акрара">
+                        <a href="articles/creature_30.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Окромакрара.png" alt="Имя">
+                                <span class="creature-number">#030</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Окромакрара</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_5.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Акрара</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 31 -->
+                    <div class="creature-card" data-creature-id="31" data-planet="Темень">
+                        <a href="articles/creature_31.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Теневой_Шипохват.png" alt="Имя">
+                                <span class="creature-number">#031</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Теневой Шипохват</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_8.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Темень</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 32 -->
+                    <div class="creature-card" data-creature-id="32" data-planet="Окрома">
+                        <a href="articles/creature_32.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Пещерный_Змей.png" alt="Имя">
+                                <span class="creature-number">#032</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Пещерная Змея</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 33 -->
+                    <div class="creature-card" data-creature-id="33" data-planet="Окрома">
+                        <a href="articles/creature_33.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Королева_Мушек_Летушек.png" alt="Имя">
+                                <span class="creature-number">#033</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Королева Мушек Летушек</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 34 -->
+                    <div class="creature-card" data-creature-id="34" data-planet="Таранте">
+                        <a href="articles/creature_34.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Потерянная_Звёздочка.png" alt="Имя">
+                                <span class="creature-number">#034</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Потерянная Звёздочка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_искусственный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Искусственный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_3.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Таранте</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 35 -->
+                    <div class="creature-card" data-creature-id="35" data-planet="Плауэро">
+                        <a href="articles/creature_35.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Брюхоскок.png" alt="Имя">
+                                <span class="creature-number">#035</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Брюхоскок</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_2.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Плауэро</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 36 -->
+                    <div class="creature-card" data-creature-id="36" data-planet="Шань-Лу">
+                        <a href="articles/creature_36.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Шныглик.png" alt="Имя">
+                                <span class="creature-number">#036</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Шныглик</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_4.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шань-Лу</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 37 -->
+                    <div class="creature-card" data-creature-id="37" data-planet="Таранте">
+                        <a href="articles/creature_37.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Ядкокуст.png" alt="Имя">
+                                <span class="creature-number">#037</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Ядкокуст</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_3.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Таранте</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 38 -->
+                    <div class="creature-card" data-creature-id="38" data-planet="Шутьям">
+                        <a href="articles/creature_38.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Стрекозлинг.png" alt="Имя">
+                                <span class="creature-number">#038</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Стрекозлинг</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_нейтральный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Нейтральный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_7.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шутьям</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 39 -->
+                    <div class="creature-card" data-creature-id="39" data-planet="Темень">
+                        <a href="articles/creature_39.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Голодон.png" alt="Имя">
+                                <span class="creature-number">#039</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Голодон</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_8.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Темень</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 40 -->
+                    <div class="creature-card" data-creature-id="40" data-planet="Нет планеты">
+                        <a href="articles/creature_40.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Мраморная_Пиявка.png" alt="Имя">
+                                <span class="creature-number">#040</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Мраморная Пиявка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_искусственный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Искусственный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_10.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Нет планеты</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 41 -->
+                    <div class="creature-card" data-creature-id="41" data-planet="Хаяси">
+                        <a href="articles/creature_41.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Жукарек.png" alt="Имя">
+                                <span class="creature-number">#041</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Жукарек</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_6.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Хаяси</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 42 -->
+                    <div class="creature-card" data-creature-id="42" data-planet="Шань-Лу">
+                        <a href="articles/creature_42.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Оживший_Тотем.png" alt="Имя">
+                                <span class="creature-number">#042</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Оживший Тотем</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_искусственный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Искусственный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_4.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шань-Лу</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 43 -->
+                    <div class="creature-card" data-creature-id="43" data-planet="Нет планеты">
+                        <a href="articles/creature_43.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Богомольный_Ястреб.png" alt="Имя">
+                                <span class="creature-number">#043</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Богомольный Ястреб</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_свирепый.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Свирепый</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_10.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Нет планеты</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 44 -->
+                    <div class="creature-card" data-creature-id="44" data-planet="Нет планеты">
+                        <a href="articles/creature_44.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Мусороносец.png" alt="Имя">
+                                <span class="creature-number">#044</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Мусороносец</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_10.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Нет планеты</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 45 -->
+                    <div class="creature-card" data-creature-id="45" data-planet="Нет планеты">
+                        <a href="articles/creature_45.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Астероидный_Паразит.png" alt="Имя">
+                                <span class="creature-number">#045</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Астероидный Паразит</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_10.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Нет планеты</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 46 -->
+                    <div class="creature-card" data-creature-id="46" data-planet="Нет планеты">
+                        <a href="articles/creature_46.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Звёздочка.png" alt="Имя">
+                                <span class="creature-number">#046</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Звёздочка</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_10.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Нет планеты</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 47 -->
+                    <div class="creature-card" data-creature-id="47" data-planet="Нет планеты">
+                        <a href="articles/creature_47.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Кубический_Пухляшик.png" alt="Имя">
+                                <span class="creature-number">#047</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Кубический Пухляшик</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_апокалиптический_умеренный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">А.У.</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_10.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Нет планеты</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 48 -->
+                    <div class="creature-card" data-creature-id="48" data-planet="Плауэро">
+                        <a href="articles/creature_48.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Пятнистый_Ждун.png" alt="Имя">
+                                <span class="creature-number">#048</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Пятнистый Ждун</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Безопасный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_2.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Плауэро</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 49 -->
+                    <div class="creature-card" data-creature-id="49" data-planet="Шань-Лу">
+                        <a href="articles/creature_49.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Шныгалинг.png" alt="Имя">
+                                <span class="creature-number">#049</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Шныгалинг</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_искусственный.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Искусственный</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_4.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Шань-Лу</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Существо 50 -->
+                    <div class="creature-card" data-creature-id="50" data-planet="Окрома">
+                        <a href="articles/creature_50.html" class="creature-link">
+                            <div class="creature-image">
+                                <img src="images/pridurki/Армагеддон.png" alt="Имя">
+                                <span class="creature-number">#050</span>
+                            </div>
+                            <div class="creature-info">
+                                <h3 class="creature-name">Армагеддон</h3>
+                                <div class="creature-class">
+                                    <img src="images/iconochki/класс_босс.png" alt="Безопасный" class="class-icon">
+                                    <span class="class-name">Босс</span>
+                                </div>
+                                <div class="creature-planet">
+                                    <img src="images/planets/планета_1.png" alt="Окрома" class="planet-icon">
+                                    <span class="planet-name">Окрома</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Пагинация -->
+                <div class="pagination">
+                    <button id="prev-btn" class="pagination-btn" disabled>
+                        <img src="images/Иконка_Назад.png" alt="Назад" class="btn-icon">
+                        Назад
+                    </button>
+
+                    <span class="page-info">
+                        Существа <span id="current-range">1-14</span> из
+                        <span id="total-creatures">15</span>
+                    </span>
+
+                    <button id="next-btn" class="pagination-btn">
+                        Вперёд
+                        <img src="images/Иконка_Вперед.png" alt="Вперед" class="btn-icon">
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- Контент для кнопки "Планеты" -->
+            <div class="planets-content" id="planets-content">
+                <div class="planets-header">
+                    <h2>Архив планет</h2>
+                    <p class="content-description">Каталог исследованных планет и космических тел. Выберите планету для получения подробной информации.</p>
+                </div>
+
+                <div class="planets-grid">
+                    <!-- Планета 1 -->
+                    <div class="planet-card" data-planet-id="1">
+                        <a href="planet/okroma.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Окрома.png" alt="Окрома">
+                                <span class="planet-number">#П-001</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Окрома</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Не пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 2 -->
+                    <div class="planet-card" data-planet-id="2">
+                        <a href="planet/playero.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Плауэро.png" alt="Плауэро">
+                                <span class="planet-number">#П-002</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Плауэро</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 3 -->
+                    <div class="planet-card" data-planet-id="3">
+                        <a href="planet/tarante.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Таранте.png" alt="Таранте">
+                                <span class="planet-number">#П-003</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Таранте</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Не пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 4 -->
+                    <div class="planet-card" data-planet-id="4">
+                        <a href="planet/shan_lu.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Шань-Лу.png" alt="Шань-Лу">
+                                <span class="planet-number">#П-004</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Шань-Лу</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 5 -->
+                    <div class="planet-card" data-planet-id="5">
+                        <a href="planet/akra.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Акрара.png" alt="Акрара">
+                                <span class="planet-number">#П-005</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Акрара</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Не пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 6 -->
+                    <div class="planet-card" data-planet-id="6">
+                        <a href="planet/hayashi.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Хаяси.png" alt="Хаяси">
+                                <span class="planet-number">#П-006</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Хаяси</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 7 -->
+                    <div class="planet-card" data-planet-id="7">
+                        <a href="planet/shutyam.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Шутьям.png" alt="Шутьям">
+                                <span class="planet-number">#П-007</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Шутьям</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Не пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 8 -->
+                    <div class="planet-card" data-planet-id="8">
+                        <a href="planet/temen.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Темень.png" alt="Темень">
+                                <span class="planet-number">#П-008</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Темень</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">Абсолютно не пригодная.</span>
+                                    <span class="planet-system">Система: БмШГ</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Планета 9 -->
+                    <div class="planet-card" data-planet-id="9">
+                        <a href="planet/izgoika.html" class="planet-link">
+                            <div class="planet-image">
+                                <img src="images/planets/Изгойка.png" alt="Изгойка">
+                                <span class="planet-number">#П-009</span>
+                            </div>
+                            <div class="planet-info">
+                                <h3 class="planet-name">Изгойка</h3>
+                                <div class="planet-details">
+                                    <span class="planet-type">На гране уничтожения.</span>
+                                    <span class="planet-system">Система: Не имеет.</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Контент для кнопки "Фауна" -->
+            <div class="fauna-content" id="fauna-content">
+                <div class="filters-header">
+                    <h2>Архив флоры и грибов</h2>
+                    <p class="content-description">Каталог растительности и грибных форм жизни исследованных планет. Используйте фильтры для поиска.</p>
+
+                    <!-- Панель фильтров и поиска -->
+                    <div class="filters-panel">
+                        <div class="search-group">
+                            <input type="text" id="fauna-search" placeholder="Поиск по названию..." class="search-input">
+                            <button id="fauna-search-btn" class="filter-btn">
+                                <img src="images/Иконка_Поиск.png" alt="Поиск" class="btn-icon">
+                                Найти
+                            </button>
+                        </div>
+
+                        <div class="filter-group">
+                            <select id="fauna-type-filter" class="filter-select">
+                                <option value="all">Все типы</option>
+                                <option value="растение">Растения</option>
+                                <option value="гриб">Грибы</option>
+                                <option value="водоросль">Водоросли</option>
+                                <option value="лиана">Лианы</option>
+                                <option value="дерево">Деревья</option>
+                                <option value="кустарник">Кустарники</option>
+                                <option value="трава">Травы</option>
+                                <option value="мох">Мхи</option>
+                                <option value="папоротник">Папоротники</option>
+                                <option value="суккулент">Суккуленты</option>
+                                <option value="выращенный">Выращенные</option>
+                                <option value="хищный">Хищные</option>
+                            </select>
+
+                            <select id="fauna-planet-filter" class="filter-select">
+                                <option value="all">Все планеты</option>
+                                <option value="Окрома">Окрома</option>
+                                <option value="Плауэро">Плауэро</option>
+                                <option value="Таранте">Таранте</option>
+                                <option value="Шань-Лу">Шань-Лу</option>
+                                <option value="Акрара">Акрара</option>
+                                <option value="Хаяси">Хаяси</option>
+                                <option value="Шутьям">Шутьям</option>
+                                <option value="Темень">Темень</option>
+                                <option value="Изгойка">Изгойка</option>
+                                <option value="Нет планеты">Нет планеты</option>
+                            </select>
+
+                            <button id="fauna-sort-btn" class="filter-btn">
+                                <img src="images/Иконка_Сортировка.png" alt="Сортировка" class="btn-icon">
+                                Сортировать
+                            </button>
+
+                            <button id="fauna-reset-btn" class="filter-btn reset">
+                                <img src="images/Иконка_Сброс.png" alt="Сброс" class="btn-icon">
+                                Сбросить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fauna-grid">
+                    <!-- Пример карточки флоры 1 -->
+                    <div class="fauna-card" data-fauna-id="1" data-fauna-type="трава" data-planet="Окрома">
+                        <a href="plants/plants_1.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Трава_Окромы.png" alt=".">
+                                <span class="fauna-number">#001</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Трава Окромы</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Травы</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 2 -->
+                    <div class="fauna-card" data-fauna-id="2" data-fauna-type="хищный" data-planet="Окрома">
+                        <a href="plants/plants_2.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Кислотушка.png" alt="Кислотушка">
+                                <span class="fauna-number">#002</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Кислотушка</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Хищные</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 3 -->
+                    <div class="fauna-card" data-fauna-id="2" data-fauna-type="растение" data-planet="Плауэро">
+                        <a href="plants/plants_3.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Кристок.png" alt="Кристок">
+                                <span class="fauna-number">#003</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Кристок</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Растения</span>
+                                    <div>
+                                        <img src="images/planets/планета_2.png" class="planet-icon">
+                                        <span class="fauna-planet">Плауэро</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 4 -->
+                    <div class="fauna-card" data-fauna-id="4" data-fauna-type="растение" data-planet="Таранте">
+                        <a href="plants/plants_4.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Одинокий_Банан.png" alt="Кристок">
+                                <span class="fauna-number">#004</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Одинокий банан</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Растения</span>
+                                    <div>
+                                        <img src="images/planets/планета_3.png" class="planet-icon">
+                                        <span class="fauna-planet">Таранте</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 5 -->
+                    <div class="fauna-card" data-fauna-id="5" data-fauna-type="суккулент" data-planet="Плауэро">
+                        <a href="plants/plants_5.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Опаш.png" alt="Кристок">
+                                <span class="fauna-number">#005</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Опаш</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Суккуленты</span>
+                                    <div>
+                                        <img src="images/planets/планета_2.png" class="planet-icon">
+                                        <span class="fauna-planet">Плауэро</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 6 -->
+                    <div class="fauna-card" data-fauna-id="6" data-fauna-type="растение" data-planet="Окрома">
+                        <a href="plants/plants_6.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Сопливый_Корень.png" alt="Кристок">
+                                <span class="fauna-number">#006</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Сопливый корень</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Растения</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 7 -->
+                    <div class="fauna-card" data-fauna-id="7" data-fauna-type="растение" data-planet="Окрома">
+                        <a href="plants/plants_7.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Сухой_Коралл.png" alt="Кристок">
+                                <span class="fauna-number">#007</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Сухой коралл</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Растения</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 8 -->
+                    <div class="fauna-card" data-fauna-id="8" data-fauna-type="гриб" data-planet="Плауэро">
+                        <a href="plants/plants_8.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Серебристая_Плесень.png" alt="Кристок">
+                                <span class="fauna-number">#008</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Серебристая плесень</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Грибы</span>
+                                    <div>
+                                        <img src="images/planets/планета_2.png" class="planet-icon">
+                                        <span class="fauna-planet">Плауэро</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 9 -->
+                    <div class="fauna-card" data-fauna-id="9" data-fauna-type="кустарник" data-planet="Таранте">
+                        <a href="plants/plants_9.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Гига-Густалла.png" alt="Кристок">
+                                <span class="fauna-number">#009</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Гига-густалла</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Кустарники</span>
+                                    <div>
+                                        <img src="images/planets/планета_3.png" class="planet-icon">
+                                        <span class="fauna-planet">Таранте</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки флоры 10 -->
+                    <div class="fauna-card" data-fauna-id="10" data-fauna-type="растение" data-planet="Окрома">
+                        <a href="plants/plants_10.html" class="fauna-link">
+                            <div class="fauna-image">
+                                <img src="images/hawka/Кишечнолинг.png" alt="Кристок">
+                                <span class="fauna-number">#010</span>
+                            </div>
+                            <div class="fauna-info">
+                                <h3 class="fauna-name">Кишечнолинг</h3>
+                                <div class="fauna-details">
+                                    <span class="fauna-type">Растения</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <!-- Добавьте остальные карточки флоры по аналогии -->
+                    <!-- Всего можно добавить до 140 карточек как у существ -->
+
+                </div>
+
+                <!-- Пагинация флоры -->
+                <div class="pagination">
+                    <button id="fauna-prev-btn" class="pagination-btn" disabled>
+                        <img src="images/Иконка_Назад.png" alt="Назад" class="btn-icon">
+                        Назад
+                    </button>
+
+                    <span class="page-info">
+                        Объекты <span id="fauna-current-range">1-12</span> из
+                        <span id="fauna-total-count">0</span>
+                    </span>
+
+                    <button id="fauna-next-btn" class="pagination-btn">
+                        Вперёд
+                        <img src="images/Иконка_Вперед.png" alt="Вперед" class="btn-icon">
+                    </button>
+                </div>
+            </div>
+
+            <!-- Контент для кнопки "Ресурсы" -->
+            <div class="resources-content" id="resources-content">
+                <div class="filters-header">
+                    <h2>Архив ресурсов</h2>
+                    <p class="content-description">Каталог полезных ископаемых и материалов исследованных планет. Используйте фильтры для поиска.</p>
+
+                    <!-- Панель фильтров и поиска -->
+                    <div class="filters-panel">
+                        <div class="search-group">
+                            <input type="text" id="resource-search" placeholder="Поиск по названию ресурса..." class="search-input">
+                            <button id="resource-search-btn" class="filter-btn">
+                                <img src="images/Иконка_Поиск.png" alt="Поиск" class="btn-icon">
+                                Найти
+                            </button>
+                        </div>
+
+                        <div class="filter-group">
+                            <select id="resource-type-filter" class="filter-select">
+                                <option value="all">Все типы</option>
+                                <option value="жидкости">Жидкости</option>
+                                <option value="металлы">Металлы</option>
+                                <option value="биологические">Биологические</option>
+                                <option value="композитные">Композитные</option>
+                                <option value="иные">Иные</option>
+                            </select>
+
+                            <select id="resource-planet-filter" class="filter-select">
+                                <option value="all">Все планеты</option>
+                                <option value="Окрома">Окрома</option>
+                                <option value="Плауэро">Плауэро</option>
+                                <option value="Таранте">Таранте</option>
+                                <option value="Шань-Лу">Шань-Лу</option>
+                                <option value="Акрара">Акрара</option>
+                                <option value="Хаяси">Хаяси</option>
+                                <option value="Шутьям">Шутьям</option>
+                                <option value="Темень">Темень</option>
+                                <option value="Изгойка">Изгойка</option>
+                                <option value="Нет планеты">Нет планеты</option>
+                            </select>
+
+                            <button id="resource-sort-btn" class="filter-btn">
+                                <img src="images/Иконка_Сортировка.png" alt="Сортировка" class="btn-icon">
+                                Сортировать
+                            </button>
+
+                            <button id="resource-reset-btn" class="filter-btn reset">
+                                <img src="images/Иконка_Сброс.png" alt="Сброс" class="btn-icon">
+                                Сбросить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resources-grid">
+                    <!-- Пример карточки ресурса 1 -->
+                    <div class="resource-card" data-resource-id="1" data-resource-type="жидкости" data-planet="Окрома">
+                        <a href="resources/resources_1.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Кровь_Окроманских_Существ.png" alt="пупупу">
+                                <span class="resource-number">#001</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Кровь окроманских существ</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Жидкость</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки ресурса 2 -->
+                    <div class="resource-card" data-resource-id="2" data-resource-type="биологические" data-planet="Окрома">
+                        <a href="resources/resources_2.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Панцирь_Таракана_Панцирьносца.png" alt="пупупу">
+                                <span class="resource-number">#002</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Панцирь таракана панцирьносца</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Биологические</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Карточка ресурса 3 -->
+                    <div class="resource-card" data-resource-id="3" data-resource-type="композитные" data-planet="Хаяси">
+                        <a href="resources/resources_3.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Бакаар.png" alt="ыыы">
+                                <span class="resource-number">#003</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Бакаар</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Композитные</span>
+                                    <div>
+                                        <img src="images/planets/планета_6.png" class="planet-icon">
+                                        <span class="fauna-planet">Хаяси</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Карточка ресурса 4 -->
+                    <div class="resource-card" data-resource-id="4" data-resource-type="композитные" data-planet="Окрома">
+                        <a href="resources/resources_4.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Древесина_Брызг-Дерева.png" alt="ыыы">
+                                <span class="resource-number">#004</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Древесина брызг-дерева</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Композитные</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Карточка ресурса 5 -->
+                    <div class="resource-card" data-resource-id="5" data-resource-type="биологические" data-planet="Плауэро">
+                        <a href="resources/resources_5.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Лысая_Кожа.png" alt="ыыы">
+                                <span class="resource-number">#005</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Лысая кожа</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Биологические</span>
+                                    <div>
+                                        <img src="images/planets/планета_2.png" class="planet-icon">
+                                        <span class="fauna-planet">Плауэро</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Карточка ресурса 6 -->
+                    <div class="resource-card" data-resource-id="6" data-resource-type="иные" data-planet="Плауэро">
+                        <a href="resources/resources_6.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Листья_Перентийи.png" alt="ыыы">
+                                <span class="resource-number">#006</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Листья перентийи</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Иные</span>
+                                    <div>
+                                        <img src="images/planets/планета_2.png" class="planet-icon">
+                                        <span class="fauna-planet">Плауэро</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки ресурса 7 -->
+                    <div class="resource-card" data-resource-id="7" data-resource-type="жидкости" data-planet="Окрома">
+                        <a href="resources/resources_7.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Гемолимфа_Окроманских_Насекомых.png" alt="пупупу">
+                                <span class="resource-number">#007</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Гемолимфа окроманских насекомых</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Жидкость</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки ресурса 8 -->
+                    <div class="resource-card" data-resource-id="8" data-resource-type="биологические" data-planet="Хаяси">
+                        <a href="resources/resources_8.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Глаз_Глазноиза.png" alt="пупупу">
+                                <span class="resource-number">#008</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Глаз глазноиза</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Биологический</span>
+                                    <div>
+                                        <img src="images/planets/планета_6.png" class="planet-icon">
+                                        <span class="fauna-planet">Хаяси</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки ресурса 9 -->
+                    <div class="resource-card" data-resource-id="9" data-resource-type="металлы" data-planet="Нет планеты">
+                        <a href="resources/resources_9.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Тапориэт.png" alt="пупупу">
+                                <span class="resource-number">#009</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Тапориэт</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Металл</span>
+                                    <div>
+                                        <img src="images/planets/планета_10.png" class="planet-icon">
+                                        <span class="fauna-planet">Нет планеты</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Пример карточки ресурса 10 -->
+                    <div class="resource-card" data-resource-id="10" data-resource-type="жидкости" data-planet="Окрома">
+                        <a href="resources/resources_10.html" class="resource-link">
+                            <div class="resource-image">
+                                <img src="images/hawka/Слизь_Слизистой_Лягушки.png" alt="пупупу">
+                                <span class="resource-number">#010</span>
+                            </div>
+                            <div class="resource-info">
+                                <h3 class="resource-name">Слизь слизистой лягушки</h3>
+                                <div class="resource-details">
+                                    <span class="resource-type">Жидкость</span>
+                                    <div>
+                                        <img src="images/planets/планета_1.png" class="planet-icon">
+                                        <span class="fauna-planet">Окрома</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Добавьте еще минимум 10 карточек для тестирования пагинации -->
+                    <!-- Копируйте структуру выше и меняйте данные -->
+
+                </div>
+
+                <!-- Пагинация ресурсов -->
+                <div class="pagination">
+                    <button id="resource-prev-btn" class="pagination-btn" disabled>
+                        <img src="images/Иконка_Назад.png" alt="Назад" class="btn-icon">
+                        Назад
+                    </button>
+
+                    <span class="page-info">
+                        Ресурсы <span id="resource-current-range">1-14</span> из
+                        <span id="resource-total-count">0</span>
+                    </span>
+
+                    <button id="resource-next-btn" class="pagination-btn">
+                        Вперёд
+                        <img src="images/Иконка_Вперед.png" alt="Вперед" class="btn-icon">
+                    </button>
+                </div>
+            </div>
+
+            <!-- В content-area добавим новый блок -->
+            <div class="story-content" id="story-content">
+                <div class="story-header">
+                    <h2>Сюжетные арки</h2>
+                    <p class="content-description">
+                        Исследуйте основные повествовательные линии вселенной БмШГ
+                    </p>
+
+                    <!-- ДИСКЛЕЙМЕР -->
+                    <div class="disclaimer-warning">
+                        <div class="warning-icon">!</div>
+                        <div class="warning-content">
+                            <h3>ВНИМАНИЕ: СПОЙЛЕРЫ!</h3>
+                            <p>
+                                Если вы хотите познать историю так, как это задумывал автор,
+                                то вам лучше не заходить на эту функцию! Здесь содержатся
+                                подробный пересказ всех сюжетных арок и поворотов истории.
+                            </p>
+                            <p class="warning-note">
+                                Рекомендуется ознакомиться с базовым лором перед изучением сюжета.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контейнер для сюжетных арок -->
+                <div class="story-arcs-container">
+                    <!-- Арка 1 -->
+                    <div class="story-arc-card" data-arc-id="1" data-arc-number="I">
+                        <div class="arc-number">Арка I</div>
+                        <div class="arc-image">
+                            <img src="images/arc1.png" alt="Начало пути">
+                            <div class="arc-status completed">Завершена</div>
+                        </div>
+                        <div class="arc-info">
+                            <h3 class="arc-name">Начало пути и Мясной титан</h3>
+                            <p class="arc-description">
+                                Первое знакомство с миром БмШГ. Ввод основых персонажей,
+                                изучение местных законов, а так же пробуждение древнего существа...
+                            </p>
+                            <div class="arc-details">
+                                <span class="arc-chapters">Глав: 3</span>
+                                <span class="arc-planets">
+                                    <img src="images/planets/планета_1.png" alt="Планеты" class="detail-icon">
+
+                                </span>
+                            </div>
+                            <div class="arc-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                                <span class="progress-text">100% завершено</span>
+                            </div>
+                            <a href="arcs/arc1.html" class="arc-link-btn">Исследовать арку →</a>
+                        </div>
+                    </div>
+
+                    <!-- Арка 2 -->
+                    <div class="story-arc-card" data-arc-id="2" data-arc-number="II">
+                        <div class="arc-number">Арка II</div>
+                        <div class="arc-image">
+                            <img src="images/arcs/arc2-preview.jpg" alt="Прометей">
+                            <div class="arc-status in-progress">В процессе</div>
+                        </div>
+                        <div class="arc-info">
+                            <h3 class="arc-name">Потерянный творец и Бессмысленный правитель</h3>
+                            <p class="arc-description">
+                                следующая арка выйдет на версии сайта v2!
+                            </p>
+                            <div class="arc-details">
+                                <span class="arc-chapters">Глав: ???</span>
+                                <span class="arc-planets">
+                                    <img src="images/planets/планета_2.png" alt="Планеты" class="detail-icon">
+
+                                </span>
+                            </div>
+                            <div class="arc-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0% завершено</span>
+                            </div>
+                            <a href="arc2.html" class="arc-link-btn">Продолжить арку →</a>
+                        </div>
+                    </div>
+
+                    <!-- Можно добавить больше арок по мере развития сюжета -->
+                </div>
+            </div>
+
+            <!-- Фон по умолчанию (GIF) -->
+            <div class="gif-background">
+                <img src="images/фон.gif" alt="Анимированный фон АМЕГА" class="background-gif">
+            </div>
+        </section>
+    </main>
+
+
+
+    <!-- НОВАЯ ПАНЕЛЬ ВЫБОРА ТЕМ -->
+    <div id="theme-panel" class="theme-panel">
+        <div class="theme-panel-header">
+            <h3><i class="fas fa-universal-access"></i> Настройки тем</h3>
+            <button id="close-panel" class="close-btn" aria-label="Закрыть панель">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="theme-panel-content">
+            <!-- Блок выбора темы -->
+            <div class="theme-section">
+                <h4><i class="fas fa-globe"></i> Выберите тему:</h4>
+                <div class="theme-grid">
+                    <!-- АМЕГА -->
+                    <button class="theme-option active" data-theme="amega" aria-label="Тема АМЕГА (базовая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #3498db, #2ecc71);"></div>
+                        <span>АМЕГА</span>
+                    </button>
+
+                    <!-- Окромы -->
+                    <button class="theme-option" data-theme="okroma" aria-label="Тема Окромы (красная)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #D32F2F, #FF5252);"></div>
+                        <span>Окромы</span>
+                    </button>
+
+                    <!-- Плауэро -->
+                    <button class="theme-option" data-theme="plauero" aria-label="Тема Плауэро (оранжевая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #FFC996, #FF9800);"></div>
+                        <span>Плауэро</span>
+                    </button>
+
+                    <!-- Таранте -->
+                    <button class="theme-option" data-theme="tarante" aria-label="Тема Таранте (зелёная)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #A0D8A2, #27ae60);"></div>
+                        <span>Таранте</span>
+                    </button>
+
+                    <!-- Шань-Лу -->
+                    <button class="theme-option" data-theme="shan-lu" aria-label="Тема Шань-Лу (жёлтая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #FFE466, #FFCA28);"></div>
+                        <span>Шань-Лу</span>
+                    </button>
+
+                    <!-- Акрары -->
+                    <button class="theme-option" data-theme="akra" aria-label="Тема Акрары (голубая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #99E4FF, #1abc9c);"></div>
+                        <span>Акрары</span>
+                    </button>
+
+                    <!-- Хаяси -->
+                    <button class="theme-option" data-theme="hayashi" aria-label="Тема Хаяси (фиолетовая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #9B59B6, #6c5ce7);"></div>
+                        <span>Хаяси</span>
+                    </button>
+
+                    <!-- Шутьяма -->
+                    <button class="theme-option" data-theme="shutyam" aria-label="Тема Шутьяма (коричневая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #AE7067, #8E554D);"></div>
+                        <span>Шутьяма</span>
+                    </button>
+
+                    <!-- Темени -->
+                    <button class="theme-option" data-theme="temeni" aria-label="Тема Темени (тёмно-серая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #202020, #9D59B2);"></div>
+                        <span>Темени</span>
+                    </button>
+
+                    <!-- Изгойка -->
+                    <button class="theme-option" data-theme="izgoika" aria-label="Тема Изгойка (лаймовая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #BAFF8F, #FFE466);"></div>
+                        <span>Изгойка</span>
+                    </button>
+
+                    <!-- Нулевое пространство -->
+                    <button class="theme-option" data-theme="null-space" aria-label="Тема Нулевое пространство (чёрно-белая)">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #000000, #FFFFFF);"></div>
+                        <span>Нулевое пространство</span>
+                    </button>
+
+                    <!-- Секретная тема (скрыта) -->
+                    <button class="theme-option secret-theme" data-theme="secret" aria-label="Секретная тема" style="display: none;">
+                        <div class="theme-preview secret-preview"></div>
+                        <span>???</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Блок управления звуком -->
+            <div class="volume-section">
+                <h4><i class="fas fa-music"></i> Громкость темы:</h4>
+                <div class="volume-control">
+                    <i class="fas fa-volume-mute volume-icon"></i>
+                    <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" aria-label="Регулятор громкости">
+                    <i class="fas fa-volume-up volume-icon"></i>
+                    <span id="volume-value" class="volume-value">50%</span>
+                </div>
+                <div class="music-info">
+                    <span id="current-track">Трек: АМЕГА (базовая тема)</span>
+                </div>
+            </div>
+
+            <!-- Дополнительные настройки -->
+            <div class="extra-controls">
+                <button id="reset-theme-btn" class="control-btn">
+                    <i class="fas fa-undo"></i> Сбросить к базовой
+                </button>
+            </div>
+        </div>
+
+        <div class="theme-panel-footer">
+            <small>Текущая тема: <span id="current-theme-name">АМЕГА</span></small>
+        </div>
+    </div>
+
+    <!-- Аудиоплеер для фоновой музыки -->
+    <audio id="theme-music" loop>
+        <!-- Источник будет меняться через JavaScript -->
+    </audio>
+
+    <!-- Оверлей для закрытия панели по клику вне её -->
+    <div id="panel-overlay" class="panel-overlay"></div>
+
+    <!-- Модальное окно для секретной информации -->
+    <div id="secretModal" class="secret-modal">
+        <div class="secret-modal-content">
+            <span class="secret-close">&times;</span>
+            <h2>Секретный доступ АМЕГА</h2>
+            <p>Введите кодовую фразу для доступа к засекреченным материалам:</p>
+            <input type="password" id="secretCode" placeholder="Введите кодовую фразу..." class="secret-code-input">
+            <button id="submitSecretCode" class="secret-submit-button">Проверить доступ</button>
+            <p id="secretErrorMessage" class="secret-error-message"></p>
+        </div>
+    </div>
+
+    <!-- Модальное окно "О нас" -->
+    <div id="aboutModal" class="about-modal">
+        <div class="about-modal-content">
+            <span class="about-close">&times;</span>
+
+            <div class="about-header">
+                <img src="images/Лого.png" alt="Логотип АМЕГА" class="about-logo">
+                <h2>АМЕГА</h2>
+                <p class="about-subtitle">Всемирная космическая организация</p>
+            </div>
+
+            <div class="about-body">
+                <div class="about-section">
+                    <h3>Добро пожаловать!</h3>
+                    <p>Здесь вы увидите справочник всех живых существ внеземной формы жизни, а так же внеземной флоры с невиданными ресурсами! Каждый сможет увидеть этот мир, не покидая свой родной дом!</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Исследуйте систему "БмШГ"</h3>
+                    <p>Если вы чувствуете, что вы уже всё видели на Земле, то добро пожаловать в уникальную звёздную систему под кодовым названием "БмШГ"!</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Наша миссия</h3>
+                    <p>Целью основной организации заключается в изучении новых невиданных экземпляров, что возможно смогут помочь людскому роду на Земле.</p>
+                </div>
+
+                <div class="about-quote">
+                    <div class="quote-text">"Иная форма жизни? Уже сейчас!"</div>
+                    <div class="quote-author">— Доктор А. С. Габров, основатель АМЕГА</div>
+                    <div class="quote-context">На выставке по космическим находкам, 2002 год</div>
+                </div>
+
+                <div class="about-features">
+                    <h3>Что вы найдёте на сайте:</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <img src="images/Иконка_Существа.png" alt="Существа" class="feature-icon">
+                            <span>Архив существ</span>
+                        </div>
+                        <div class="feature-item">
+                            <img src="images/Иконка_Планеты.png" alt="Планеты" class="feature-icon">
+                            <span>Исследованные планеты</span>
+                        </div>
+                        <div class="feature-item">
+                            <img src="images/Иконка_Ресурсы.png" alt="Ресурсы" class="feature-icon">
+                            <span>Космические ресурсы</span>
+                        </div>
+                        <div class="feature-item">
+                            <img src="images/Иконка_Фауна.png" alt="Фауна" class="feature-icon">
+                            <span>Внеземную флору</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="about-footer">
+                    <p>© 2034 АМЕГА. Все данные засекречены и предназначены только для авторизованного персонала.</p>
+                    <p class="version">Версия сайта: v1 </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно "Понятия" -->
+    <div id="conceptsModal" class="concepts-modal">
+        <div class="concepts-modal-content">
+            <span class="concepts-close">&times;</span>
+
+            <div class="concepts-header">
+                <h2><img src="images/Иконка_Понятия.png" alt="Понятия" class="concepts-title-icon"> Классы существ</h2>
+                <p class="concepts-subtitle">Справочник по классификации внеземных форм жизни АМЕГА</p>
+            </div>
+
+            <div class="concepts-search">
+                <input type="text" id="concept-search" placeholder="Поиск по классам существ..." class="concepts-search-input">
+                <button id="concept-search-btn" class="concepts-search-btn">
+                    <img src="images/Иконка_Поиск.png" alt="Поиск" class="btn-icon">
+                </button>
+            </div>
+
+            <div class="concepts-container">
+                <!-- Класс 1: Безопасный -->
+                <div class="concept-card" data-concept-type="безопасный">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_безопасный.png" alt="Безопасный" class="concept-icon">
+                            <h3>Безопасный</h3>
+                        </div>
+                        <span class="concept-badge безопасный">Низкая угроза</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Это класс существ, что никак не способен навредить человеку.</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Можно приближаться без специальной защиты</li>
+                                <li>Разрешён контактный осмотр</li>
+                                <li>Безопасно для исследования в полевых условиях</li>
+                                <li>Может содержаться в открытых вольерах</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 2: Нейтральный -->
+                <div class="concept-card" data-concept-type="нейтральный">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_нейтральный.png" alt="Нейтральный" class="concept-icon">
+                            <h3>Нейтральный</h3>
+                        </div>
+                        <span class="concept-badge нейтральный">Средняя угроза</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Это класс существ, что может напасть при определённых обстоятельствах. А так же не смертельно ранить человека.</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Приближаться только в защитном снаряжении</li>
+                                <li>Избегать провоцирующих действий</li>
+                                <li>Не входить в территорию гнездования</li>
+                                <li>Иметь при себе средства защиты</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 3: Свирепый -->
+                <div class="concept-card" data-concept-type="свирепый">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_свирепый.png" alt="Свирепый" class="concept-icon">
+                            <h3>Свирепый</h3>
+                        </div>
+                        <span class="concept-badge свирепый">Высокая угроза</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Это класс существ, к которому лучше вообще не приближаться и держать дистанцию.</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Строго соблюдать дистанцию не менее 50 метров</li>
+                                <li>Наблюдение только с защищённых укрытий</li>
+                                <li>Запрещён любой контакт</li>
+                                <li>Требуется вооружённое сопровождение</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 4: Искусственный -->
+                <div class="concept-card" data-concept-type="искусственный">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_искусственный.png" alt="Искусственный" class="concept-icon">
+                            <h3>Искусственный</h3>
+                        </div>
+                        <span class="concept-badge искусственный">Созданный</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Это класс существ, которые были созданы искусственно АМЕГАвцами. По большей части подобного рода существ являются лучшими компаньонами для людей, но есть и исключения.</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Требуется проверка серийного номера</li>
+                                <li>Соблюдать протоколы взаимодействия с ИИ</li>
+                                <li>Регулярное техническое обслуживание</li>
+                                <li>Отчёт о любых аномалиях поведения</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 5: Апокалиптический -->
+                <div class="concept-card" data-concept-type="апокалиптический">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_апокалиптический.png" alt="Апокалиптический" class="concept-icon">
+                            <h3>Апокалиптический</h3>
+                        </div>
+                        <span class="concept-badge апокалиптический">Критическая угроза</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Это класс существ, что способен уничтожать города и страны, а в некоторых случаях и планеты!</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Немедленное оповещение командования АМЕГА</li>
+                                <li>Эвакуация в радиусе 500+ километров</li>
+                                <li>Активация протокола "Омега"</li>
+                                <li>Рассмотрение вариантов нейтрализации</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 6: Апокалиптический умеренный -->
+                <div class="concept-card" data-concept-type="апокалиптический-умеренный">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_апокалиптический_умеренный.png" alt="Апокалиптический умеренный" class="concept-icon">
+                            <h3>Апокалиптический умеренный</h3>
+                        </div>
+                        <span class="concept-badge апокалиптический-умеренный">Контролируемая угроза</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Это класс существ, что так же способен уничтожать города, страны и планеты, но по каким-то причинам не делают этого. Либо это связано с желанием объекта, либо же из-за какого-либо сдерживающего фактора от экипажа АМЕГА.</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Постоянный мониторинг с безопасного расстояния</li>
+                                <li>Соблюдение условий сдерживающего фактора</li>
+                                <li>Запрещены любые провокационные действия</li>
+                                <li>Готовность к активации протокола "Омега"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 7: Вымирающий -->
+                <div class="concept-card" data-concept-type="вымирающий">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_вымирающий.png" alt="Вымирающий" class="concept-icon">
+                            <h3>Вымирающий</h3>
+                        </div>
+                        <span class="concept-badge вымирающий">Особый статус</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Этот класс существ является либо вымершим и воскрешённым видом, либо же постепенно исчезающим. Подобных существ как правило либо пытаются сохранить и пополнять популяцию, либо же ограждать от всего мира во благо сохранения и изучения вида.</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Максимальная осторожность при контакте</li>
+                                <li>Сбор генетического материала</li>
+                                <li>Создание защищённой среды обитания</li>
+                                <li>Запрещено вмешательство в естественные процессы</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 8: Босс -->
+                <div class="concept-card" data-concept-type="босс">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_босс.png" alt="Босс" class="concept-icon">
+                            <h3>Босс</h3>
+                        </div>
+                        <span class="concept-badge босс">Альфа-угроза</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Этот класс присущий только боссам планет и космоса. Сильнейшим существам этого нового мира...</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Только наблюдение с орбитальных станций</li>
+                                <li>Полный запрет на любые контакты</li>
+                                <li>Активация протокола "Титан"</li>
+                                <li>Координация с военным отделом АМЕГА</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 9: Технический -->
+                <div class="concept-card" data-concept-type="технический">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_технический.png" alt="Технический" class="concept-icon">
+                            <h3>Технический</h3>
+                        </div>
+                        <span class="concept-badge технический">Аномальный</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Этот класс является чем-то сверхъестественным... Их природа и поведение неясны и по сей день. Как правило подобные существа делают какое-то определённое действие, а после пропадают в небытие..</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Немедленная фиксация всех аномалий</li>
+                                <li>Сбор данных о пространственно-временных искажениях</li>
+                                <li>Запрещено прямое взаимодействие</li>
+                                <li>Отчёт в отдел аномальных исследований</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Класс 10: Неизвестный -->
+                <div class="concept-card" data-concept-type="неизвестный">
+                    <div class="concept-header">
+                        <div class="concept-title">
+                            <img src="images/iconochki/класс_неизвестный.png" alt="Неизвестный" class="concept-icon">
+                            <h3>Неизвестный</h3>
+                        </div>
+                        <span class="concept-badge неизвестный">Засекречено</span>
+                    </div>
+                    <div class="concept-body">
+                        <div class="concept-description">
+                            <h4>Определение:</h4>
+                            <p>Этот класс присущий лишь одному существу. Его существование не доказано, ведь его давно уже никто не видел, а те кто его видел, не смогли его запечатлеть... Ходят слухи, что запись о нём хранится в засекреченных данных, но.. Зачем АМЕГА скрывать о нём информацию? Неизвестно.</p>
+                        </div>
+                        <div class="concept-instruction">
+                            <h4>Инструктаж:</h4>
+                            <ul>
+                                <li>Доступ ограничен</li>
+                                
+                                <li>Информация засекречена</li>
+                               
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concepts-footer">
+                <p>⚠️ Все инструкции обязательны к исполнению. Несоблюдение может привести к непоправимым последствиям.</p>
+                <p class="concepts-version">Классификация АМЕГА v1 | Действует с 2034 года</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- НОВЫЙ СКРИПТ ДЛЯ СИСТЕМЫ ТЕМ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Элементы ---
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const themePanel = document.getElementById('theme-panel');
+            const closePanelBtn = document.getElementById('close-panel');
+            const panelOverlay = document.getElementById('panel-overlay');
+            const themeOptions = document.querySelectorAll('.theme-option');
+            const volumeSlider = document.getElementById('volume-slider');
+            const volumeValue = document.getElementById('volume-value');
+            const themeMusic = document.getElementById('theme-music');
+            const currentTrack = document.getElementById('current-track');
+            const currentThemeName = document.getElementById('current-theme-name');
+            const resetThemeBtn = document.getElementById('reset-theme-btn');
+            const secretThemeBtn = document.querySelector('.theme-option.secret-theme');
+
+            // --- Музыка для тем ---
+            const themeMusicMap = {
+                'amega': 'audio/theme_amega.mp3',
+                'okroma': 'audio/theme_okroma.mp3',
+                'plauero': 'audio/theme_plauero.mp3',
+                'tarante': 'audio/theme_tarante.mp3',
+                'shan-lu': 'audio/theme_shan_lu.mp3',
+                'akra': 'audio/theme_akra.mp3',
+                'hayashi': 'audio/theme_hayashi.mp3',
+                'shutyam': 'audio/theme_shutyam.mp3',
+                'temeni': 'audio/theme_temeni.mp3',
+                'izgoika': 'audio/theme_izgoika.mp3',
+                'null-space': 'audio/theme_null_space.mp3',
+                'secret': 'audio/theme_secret.mp3'
+            };
+
+            // --- Названия тем ---
+            const themeNames = {
+                'amega': 'АМЕГА',
+                'okroma': 'Окромы',
+                'plauero': 'Плауэро',
+                'tarante': 'Таранте',
+                'shan-lu': 'Шань-Лу',
+                'akra': 'Акрары',
+                'hayashi': 'Хаяси',
+                'shutyam': 'Шутьяма',
+                'temeni': 'Темени',
+                'izgoika': 'Изгойка',
+                'null-space': 'Нулевое пространство',
+                'secret': '??? (Секретная)'
+            };
+
+            // --- Функции ---
+            function openThemePanel() {
+                themePanel.classList.add('active');
+                panelOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeThemePanel() {
+                themePanel.classList.remove('active');
+                panelOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function applyTheme(themeName) {
+                // Обновляем класс body
+                document.body.className = '';
+                document.body.classList.add(`theme-${themeName}`);
+
+                // Обновляем активную кнопку темы
+                themeOptions.forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.theme === themeName) {
+                        option.classList.add('active');
+                    }
+                });
+
+                // Сохраняем в localStorage
+                localStorage.setItem('site-theme', themeName);
+
+                // Обновляем отображение названия темы
+                if (currentThemeName) {
+                    currentThemeName.textContent = themeNames[themeName];
+                }
+
+                // Меняем музыку
+                changeMusicForTheme(themeName);
+            }
+
+            function changeMusicForTheme(themeName) {
+                const musicSrc = themeMusicMap[themeName];
+                if (musicSrc && themeMusic) {
+                    // Обновляем отображение трека
+                    if (currentTrack) {
+                        currentTrack.textContent = `Трек: ${themeNames[themeName]}`;
+                    }
+
+                    // Меняем источник если нужно
+                    if (themeMusic.src !== musicSrc) {
+                        themeMusic.pause();
+                        themeMusic.src = musicSrc;
+                        themeMusic.volume = volumeSlider.value / 100;
+
+                        // Пытаемся воспроизвести (с обработкой ошибок автовоспроизведения)
+                        themeMusic.play().catch(e => {
+                            console.log("Автовоспроизведение заблокировано. Пользователь должен запустить музыку вручную.");
+                        });
+                    }
+                }
+            }
+
+            function loadSavedSettings() {
+                // Загружаем тему
+                const savedTheme = localStorage.getItem('site-theme') || 'amega';
+                applyTheme(savedTheme);
+
+                // Загружаем громкость
+                const savedVolume = localStorage.getItem('site-volume');
+                if (savedVolume !== null) {
+                    volumeSlider.value = savedVolume;
+                    volumeValue.textContent = `${savedVolume}%`;
+                    if (themeMusic) {
+                        themeMusic.volume = savedVolume / 100;
+                    }
+                }
+            }
+
+            // --- Обработчики событий ---
+            // Открытие/закрытие панели
+            themeToggleBtn.addEventListener('click', openThemePanel);
+            closePanelBtn.addEventListener('click', closeThemePanel);
+            panelOverlay.addEventListener('click', closeThemePanel);
+
+            // Выбор темы
+            themeOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    const themeName = this.dataset.theme;
+                    applyTheme(themeName);
+                    // Не закрываем панель при выборе темы
+                });
+            });
+
+            // Управление громкостью
+            volumeSlider.addEventListener('input', function () {
+                const volume = this.value;
+                volumeValue.textContent = `${volume}%`;
+
+                if (themeMusic) {
+                    themeMusic.volume = volume / 100;
+                }
+
+                localStorage.setItem('site-volume', volume);
+            });
+
+            // Сброс темы
+            resetThemeBtn.addEventListener('click', function () {
+                applyTheme('amega');
+            });
+
+            // Секретная тема (активация по коду)
+            let secretCode = [];
+            document.addEventListener('keydown', function (e) {
+                // Код для активации секретной темы: "АМЕГА2024"
+                secretCode.push(e.key.toLowerCase());
+                if (secretCode.length > 9) {
+                    secretCode.shift();
+                }
+
+                const targetCode = ['а', 'м', 'е', 'г', 'а', '2', '0', '2', '4'];
+                if (secretCode.join('') === targetCode.join('')) {
+                    // Показываем секретную тему
+                    if (secretThemeBtn) {
+                        secretThemeBtn.style.display = 'block';
+                        // Можно показать сообщение
+                        console.log('Секретная тема разблокирована!');
+                    }
+                    secretCode = [];
+                }
+            });
+
+            // --- Инициализация ---
+            loadSavedSettings();
+
+            // Запускаем музыку при первой загрузке (если пользователь уже взаимодействовал со страницей)
+            document.addEventListener('click', function initMusic() {
+                if (themeMusic && themeMusic.paused) {
+                    themeMusic.play().catch(e => console.log("Не удалось запустить музыку"));
+                }
+                document.removeEventListener('click', initMusic);
+            });
+        });
+    </script>
+
+    <!-- Модальное окно "История сайта" -->
+    <div id="historyModal" class="history-modal">
+        <div class="history-modal-content">
+            <div class="history-modal-header">
+                <h2><i class="fas fa-history"></i> История обновлений сайта</h2>
+                <span class="history-close">&times;</span>
+            </div>
+            <div class="history-modal-body">
+                <div class="version-section">
+                    <h3>Версия v1 - Первый релиз</h3>
+                    <p class="version-date">Дата выпуска: [24.03.2026]</p>
+                    <div class="version-features">
+                        <h4><i class="fas fa-rocket"></i> Основные функции:</h4>
+                        <ul>
+                            <li><strong>Архив фауны:</strong> Полная база данных 50+0 существ</li>
+                            <li><strong>Архив планет:</strong> Полная база данных планет</li>
+                            <li><strong>Архив флоры:</strong> Каталог флоры и грибов</li>
+                            <li><strong>Архив ресурсов:</strong> База полезных ископаемых и материалов</li>
+                            <li><strong>Секретная информация:</strong> Защищённый доступ к закрытым данным</li>
+                            <li><strong>Сюжетные арки:</strong> Первая сюжетная линия "Начало пути и Мясной титан"</li>
+                            <li><strong>Система тем:</strong> 12 уникальных визуальных тем для разных планет</li>
+                            <li><strong>Классы существ:</strong> 10 категорий классификации форм жизни</li>
+                            <li><strong>Панель управления:</strong> Настройки музыки и темы в реальном времени</li>
+                            <li><strong>Панель галереи:</strong> Арты пользователей прямо здесь!</li>
+                        </ul>
+                    </div>
+
+                    <div class="version-details">
+                        <h4><i class="fas fa-cogs"></i> Технические особенности:</h4>
+                        <ul>
+                            <li>Адаптивный дизайн для мобильных устройств</li>
+                            <li>Система пагинации для больших архивов</li>
+                            <li>Фильтры и поиск по всем разделам</li>
+                            <li>Анимированный GIF-фон</li>
+                            <li>Интерактивные карточки с hover-эффектами</li>
+                            <li>Локализованная анимация CSS3</li>
+                            <li>Поддержка Font Awesome иконок</li>
+                        </ul>
+                    </div>
+
+                    <div class="version-notes">
+                        <h4><i class="fas fa-sticky-note"></i> Примечания:</h4>
+                        <p>
+                            Это первая версия сайта, представляющая полную функциональность вселенной БмШГ.
+                            Все системы работают в базовом режиме, готовы к расширению и добавлению нового контента.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="future-plans">
+                    <h3><i class="fas fa-calendar-alt"></i> Планы на будущее (Версия v2):</h3>
+                    <ul>
+                        <li>Добавление новых существ, фауны и ресурсов</li>
+                        <li>Расширение сюжетных арок</li>
+                        <li>Доска почёта основных персонажей</li>
+                        <li>Система достижений для исследователей</li>
+                        <li>Добавить больше различных GIF-фонов для тем</li>
+                 
+                    </ul>
+                </div>
+
+                <div class="history-footer">
+                    <p class="version-tag">Текущая версия: <strong>v1</strong></p>
+                    <p class="copyright">© АМЕГА 2034. Все права защищены. История обновлений ведётся с момента создания.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

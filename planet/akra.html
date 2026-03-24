@@ -1,0 +1,1585 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Акрара - Архив АМЕГА</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Подключение системы тем */
+        :root {
+            /* Базовые цвета темы АМЕГА (по умолчанию) */
+            --color-primary: #64ffda;
+            --color-secondary: #0a192f;
+            --color-background: #0a192f;
+            --color-surface: #112240;
+            --color-text: #ccd6f6;
+            --color-text-secondary: #8892b0;
+            --color-border: #64ffda;
+            --color-hover: rgba(100, 255, 218, 0.1);
+        }
+
+        /* Применение выбранной темы через классы */
+        body.theme-okroma {
+            --color-primary: #D32F2F;
+            --color-border: #FF5252;
+            --color-hover: rgba(211, 47, 47, 0.1);
+        }
+
+        body.theme-plauero {
+            --color-primary: #FF9800;
+            --color-border: #FFC996;
+            --color-hover: rgba(255, 152, 0, 0.1);
+        }
+
+        body.theme-tarante {
+            --color-primary: #27ae60;
+            --color-border: #A0D8A2;
+            --color-hover: rgba(39, 174, 96, 0.1);
+        }
+
+        body.theme-shan-lu {
+            --color-primary: #FFCA28;
+            --color-border: #FFE466;
+            --color-hover: rgba(255, 202, 40, 0.1);
+        }
+
+        body.theme-akra {
+            --color-primary: #1abc9c;
+            --color-border: #99E4FF;
+            --color-hover: rgba(26, 188, 156, 0.1);
+        }
+
+        body.theme-hayashi {
+            --color-primary: #6c5ce7;
+            --color-border: #9B59B6;
+            --color-hover: rgba(108, 92, 231, 0.1);
+        }
+
+        body.theme-shutyam {
+            --color-primary: #8E554D;
+            --color-border: #AE7067;
+            --color-hover: rgba(142, 85, 77, 0.1);
+        }
+
+        body.theme-temeni {
+            --color-primary: #9D59B2;
+            --color-border: #202020;
+            --color-hover: rgba(157, 89, 178, 0.1);
+        }
+
+        body.theme-izgoika {
+            --color-primary: #FFE466;
+            --color-border: #BAFF8F;
+            --color-hover: rgba(255, 228, 102, 0.1);
+        }
+
+        body.theme-null-space {
+            --color-primary: #FFFFFF;
+            --color-border: #000000;
+            --color-background: #000000;
+            --color-surface: #111111;
+            --color-text: #FFFFFF;
+            --color-text-secondary: #AAAAAA;
+            --color-hover: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            position: relative;
+            min-height: 100vh;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            transition: all 0.3s ease;
+        }
+
+        .gif-background-article {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+            .gif-background-article img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .article-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        .creature-title {
+            color: var(--color-primary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--color-hover);
+        }
+
+        .creature-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        .creature-id {
+            background: var(--color-hover);
+            color: var(--color-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--color-primary);
+            font-size: 1rem;
+            margin-left: 1rem;
+        }
+
+        .main-image-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .creature-image-container {
+            display: inline-block;
+            position: relative;
+            border-radius: 15px;
+            border: 3px solid var(--color-primary);
+            box-shadow: 0 0 30px var(--color-hover);
+            overflow: hidden;
+            background: linear-gradient(45deg, var(--color-background) 0%, var(--color-surface) 100%);
+            padding: 20px;
+        }
+
+        .creature-image-large {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 10px;
+            animation: breathe 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px var(--color-hover));
+            transition: transform 0.3s ease;
+        }
+
+            .creature-image-large:hover {
+                animation: breatheHover 2s ease-in-out infinite;
+            }
+
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+            }
+
+            50% {
+                transform: scale(1.02) translateY(-5px);
+            }
+        }
+
+        @keyframes breatheHover {
+            0%, 100% {
+                transform: scale(1.02) translateY(-3px);
+            }
+
+            50% {
+                transform: scale(1.04) translateY(-8px);
+            }
+        }
+
+        .image-caption {
+            color: var(--color-text-secondary);
+            font-style: italic;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .content-slider {
+            background: var(--color-hover);
+            border-radius: 15px;
+            border: 2px solid var(--color-primary);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            min-height: 300px;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+            .slide.active {
+                display: block;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--color-primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .text-content {
+            color: var(--color-text);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+            .text-content p {
+                margin-bottom: 1.5rem;
+            }
+
+        .poetry-content {
+            font-style: italic;
+            text-align: center;
+            font-size: 1.3rem;
+            line-height: 2;
+            color: var(--color-primary);
+            padding: 2rem;
+            background: var(--color-hover);
+            border-radius: 15px;
+            border: 1px dashed var(--color-primary);
+        }
+
+        .behavior-list {
+            list-style: none;
+            padding: 0;
+        }
+
+            .behavior-list li {
+                margin-bottom: 1rem;
+                padding-left: 2rem;
+                position: relative;
+            }
+
+                .behavior-list li:before {
+                    content: "•";
+                    color: var(--color-primary);
+                    font-size: 1.5rem;
+                    position: absolute;
+                    left: 0;
+                    top: -0.2rem;
+                }
+
+        .slider-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-primary);
+        }
+
+        .slider-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            background: var(--color-background);
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+            .slider-btn:hover:not(:disabled) {
+                background: var(--color-primary);
+                color: var(--color-secondary);
+            }
+
+            .slider-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+        .slide-indicator {
+            color: var(--color-primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .sidebar-info {
+            background: var(--color-hover);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--color-primary);
+            margin-bottom: 2rem;
+        }
+
+        /* СЕТКА: 3 карточки в ряд */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-group {
+            padding: 1rem;
+            background: rgba(10, 25, 47, 0.6);
+            border-radius: 8px;
+            border: 1px solid var(--color-primary);
+            transition: transform 0.3s ease;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+            .info-group:hover .info-icon {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 8px var(--color-primary));
+            }
+
+        .info-label {
+            color: var(--color-primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: var(--color-text);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+            filter: drop-shadow(0 0 5px var(--color-hover));
+            transition: transform 0.3s ease;
+        }
+
+        .rarity-common {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .class-safe {
+            color: #4CAF50;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Стили для сворачиваемых блоков */
+        .collapsible-section {
+            margin-top: 2rem;
+            border-top: 2px dashed var(--color-primary);
+            padding-top: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 1rem;
+            background: rgba(10, 25, 47, 0.8);
+            border-radius: 8px;
+            border: 1px solid var(--color-primary);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .section-header:hover {
+                background: var(--color-hover);
+                transform: translateY(-2px);
+            }
+
+            .section-header h3 {
+                color: var(--color-primary);
+                margin: 0;
+                font-size: 1.3rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+        .toggle-icon {
+            color: var(--color-primary);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            max-height: 1000px;
+            opacity: 1;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+            margin-bottom: 1rem;
+        }
+
+            .section-content.collapsed {
+                max-height: 0;
+                opacity: 0;
+                margin-bottom: 0;
+            }
+
+        /* Сетка для карточек (общая для биомов и событий) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Стили для карточек (единый стиль для биомов и событий) */
+        .biome-card, .event-card {
+            background: rgba(10, 25, 47, 0.6);
+            border: 1px solid var(--color-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+            .biome-card:hover, .event-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px var(--color-hover);
+            }
+
+        .biome-image, .event-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--color-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .biome-name, .event-name {
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .biome-desc, .event-desc {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .event-frequency {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.2rem 0.8rem;
+            background: var(--color-hover);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+        }
+
+        /* ОТДЕЛЬНАЯ КАРТОЧКА ПЛАНЕТЫ */
+        .planet-info-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px dashed var(--color-primary);
+        }
+
+        .planet-info-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(10, 25, 47, 0.6);
+            border-radius: 12px;
+            border: 2px solid var(--color-primary);
+            transition: all 0.3s ease;
+            max-width: 300px;
+            width: 100%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+            .planet-info-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 15px 30px var(--color-hover);
+            }
+
+        .planet-info-label {
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .planet-info-image-container {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .planet-info-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--color-primary);
+            box-shadow: 0 0 20px var(--color-hover);
+            transition: all 0.3s ease;
+        }
+
+        .planet-info-card:hover .planet-info-image {
+            transform: rotate(10deg);
+            border-width: 4px;
+            box-shadow: 0 0 30px var(--color-primary);
+        }
+
+        .planet-info-name {
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(100, 255, 218, 0.1);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Эффект свечения */
+        .planet-info-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--color-primary), transparent, var(--color-primary));
+            border-radius: 14px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .planet-info-card:hover::before {
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            background: var(--color-background);
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .nav-btn:hover {
+                background: var(--color-primary);
+                color: var(--color-secondary);
+            }
+
+        .back-to-archive {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(10, 25, 47, 0.8);
+        }
+
+            .back-btn:hover {
+                background: var(--color-primary);
+                color: var(--color-secondary);
+            }
+
+        /* Кнопка смены темы на странице */
+        .theme-toggle-creature {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--color-primary);
+            color: var(--color-secondary);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+            .theme-toggle-creature:hover {
+                transform: rotate(30deg) scale(1.1);
+            }
+
+        /* ПАНЕЛЬ ВЫБОРА ТЕМ */
+        .theme-panel-creature {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--color-surface);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            color: var(--color-text);
+        }
+
+            .theme-panel-creature.active {
+                right: 0;
+            }
+
+
+        .theme-panel-header-creature {
+            padding: 20px;
+            background: var(--color-primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .theme-panel-content-creature {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .theme-grid-creature {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .theme-option-creature {
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px;
+            background: var(--color-background);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .theme-option-creature.active {
+                border-color: var(--color-primary);
+                box-shadow: 0 0 10px var(--color-primary);
+            }
+
+        .theme-preview-creature {
+            width: 100%;
+            height: 60px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .volume-slider-creature {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .panel-overlay-creature {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+        }
+
+            .panel-overlay-creature.active {
+                display: block;
+            }
+
+        .close-btn-creature {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .volume-control-creature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .volume-icon-creature {
+            color: var(--color-primary);
+        }
+
+        .volume-value-creature {
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .control-btn-creature {
+            width: 100%;
+            padding: 10px;
+            background: var(--color-hover);
+            border: 1px solid var(--color-primary);
+            color: var(--color-text);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+            .control-btn-creature:hover {
+                background: var(--color-primary);
+                color: var(--color-secondary);
+            }
+
+        .theme-panel-footer-creature {
+            padding: 15px 20px;
+            border-top: 1px solid var(--color-border);
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 992px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 1rem;
+            }
+
+            .creature-title {
+                font-size: 2rem;
+            }
+
+            .creature-image-large {
+                max-width: 300px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .planet-info-card {
+                max-width: 100%;
+            }
+
+            .planet-info-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .info-value {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+
+            .slider-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                justify-content: center;
+            }
+
+            .theme-toggle-creature {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .theme-panel-creature {
+                width: 100%;
+                right: -100%;
+            }
+
+            .theme-grid-creature {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .poetry-content {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .info-group {
+                padding: 0.8rem;
+                min-height: 80px;
+            }
+
+            .planet-info-card {
+                padding: 1rem;
+            }
+
+            .planet-info-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .theme-grid-creature {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .text-content {
+                text-align: left;
+                line-height: 1.5;
+                font-size: 1rem;
+                /* Оптимизация для чтения */
+                hyphens: auto; /* Включаем переносы слов */
+                word-break: break-word; /* Длинные слова переносим */
+                /* Делаем текст более "воздушным" для глаз */
+                max-width: 100%;
+                padding: 0 10px;
+                /* Убираем эти растягиватели */
+                word-spacing: normal !important;
+                letter-spacing: normal !important;
+            }
+
+            /* Для списков тоже поправим */
+            .behavior-list li {
+                margin-bottom: 0.8rem;
+                padding-left: 1.5rem;
+                font-size: 0.95rem;
+                line-height: 1.4;
+            }
+
+            /* Абзацы не будут слипаться */
+            .text-content p {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="theme-amega">
+
+    <!-- Фон -->
+    <div class="gif-background-article">
+        <img src="../images/фон.gif" alt="Анимированный фон АМЕГА">
+    </div>
+
+    <header class="header">
+        <div class="logo-container">
+            <img src="../images/Лого.png" alt="Логотип АМЕГА" class="logo-image">
+            <h1 class="logo-text">АМЕГА</h1>
+        </div>
+
+        <div class="quote-container">
+            <p class="quote">"Иная форма жизни? Уже сейчас!"</p>
+            <p class="signature">— Доктор А.С. Габров, глава АМЕГА</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="article-container">
+            <!-- Кнопка возврата -->
+            <div class="back-to-archive">
+                <a href="../index.html" class="back-btn">
+                    ← Вернуться в архив планет
+                </a>
+            </div>
+
+            <!-- Заголовок статьи -->
+            <div class="article-header">
+                <h1 class="creature-title">
+                    Акрара
+                    <span class="creature-id">#П-005</span>
+                </h1>
+                <p class="creature-subtitle">Пятая открытая планета в системе "БмШГ"</p>
+            </div>
+
+            <!-- Основное изображение с анимацией -->
+            <div class="main-image-section">
+                <div class="creature-image-container">
+                    <img src="../images/planets/Акрара.png" alt="Планета Окрома" class="creature-image-large">
+                </div>
+                <p class="image-caption">"Планета бескрайнего океана и бездонных глубин"</p>
+            </div>
+
+            <!-- Информационная панель -->
+            <div class="sidebar-info">
+                <!-- СЕТКА 3x3 С ХАРАКТЕРИСТИКАМИ ПЛАНЕТЫ -->
+                <div class="info-grid">
+                    <!-- Ряд 1 -->
+                    <div class="info-group">
+                        <span class="info-label">Тип планеты</span>
+                        <span class="info-value">средняя</span>
+                    </div>
+
+                    <!-- Ряд 2 -->
+                    <div class="info-group">
+                        <span class="info-label">Система</span>
+                        <span class="info-value">БмШГ</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Диаметр</span>
+                        <span class="info-value">~18 726 км</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Гравитация</span>
+                        <span class="info-value">9.3 g</span>
+                    </div>
+
+                    <!-- Ряд 3 -->
+                    <div class="info-group">
+                        <span class="info-label">Первая регистрация</span>
+                        <span class="info-value">2034 год</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Статус</span>
+                        <span class="info-value">на стадии изучения</span>
+                    </div>
+                </div>
+
+                <!-- КАРТОЧКА ПЛАНЕТЫ -->
+                <div class="planet-info-container">
+                    <div class="planet-info-card">
+                        <span class="planet-info-label">Мини иконка</span>
+                        <div class="planet-info-image-container">
+                            <img src="../images/planets/планета_5.png" alt="Окрома" class="planet-info-image">
+                        </div>
+                        <span class="planet-info-name">Акрара</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- БЛОК: События (природные явления) с картинками -->
+            <div class="collapsible-section">
+                <div class="section-header" id="events-header">
+                    <h3>
+                        <i class="fas fa-cloud-rain"></i>
+                        События
+                    </h3>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="section-content" id="events-content">
+                    <div class="cards-grid">
+                        <!-- Карточка 1: Кислотный дождь -->
+                        <div class="event-card">
+                            <img src="../images/hawka/скоро.png" alt="пупупу..." class="event-image">
+                            <div class="event-name">Скоро</div>
+                            <div class="event-desc">События появятся в ближайшем обновлении!</div>
+                            <span class="event-frequency">Частота: никакая</span>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- БЛОК: Биомы -->
+            <div class="collapsible-section">
+                <div class="section-header" id="biomes-header">
+                    <h3>
+                        <i class="fas fa-tree"></i>
+                        Биомы планеты
+                    </h3>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="section-content" id="biomes-content">
+                    <div class="cards-grid">
+                        <!-- Биом 1 -->
+                        <div class="biome-card">
+                            <img src="../images/hawka/скоро.png" alt="Лес" class="biome-image">
+                            <div class="biome-name">Скоро!</div>
+                            <div class="biome-desc">Площадь: никакая</div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Слайдер контента -->
+            <div class="content-slider">
+                <!-- Слайд 1: Поэзия (четверостишье) -->
+                <div class="slide active" id="slide1">
+                    <h2 class="section-title">Поэзия планеты</h2>
+                    <div class="poetry-content">
+                        "Одним океаном укрыта земля,<br>
+                        Где нет ни клочка от островов.<br>
+                        Только бездна так и манит,<br>
+                        К ангелу на дно."<br>
+                        <span style="display: block; margin-top: 1rem; font-size: 0.9rem;">— Народное творчество АМЕГА</span>
+                    </div>
+                </div>
+
+                <!-- Слайд 2: Текст (заглушка) -->
+                <div class="slide" id="slide2">
+                    <h2 class="section-title">Описание</h2>
+                    <div class="text-content">
+                        <p><strong>Акрара</strong> — планета, представляющая собой единый бескрайний океан, окутывающий всю планету. Здесь нет ни клочка суши, кроме ледниковых шапок на полюсах, где мороз сковал воду в вечные льды. Жизнь в этом мире поддерживается за счёт бесчисленных водорослей, вырабатывающих кислород, которым дышат обитатели океанских глубин и редкие исследователи, рискнувшие спуститься на дно. Однако истинная причина того, что Акрара остаётся не изученной до сих пор, скрывается в её пугающем сердце — Ужасающем океане. Так назвали самую глубокую впадину планеты, место, где давление сокрушает любые механизмы, а тьма становится абсолютной. Босс этого мира остаётся загадкой: те немногие, кто выжил после встречи с ним на дне бездны, описывали его как ангела-серафима — колоссальную медузу невероятных размеров, чьи мотивы и природа до сих пор неизвестны. Приближаться к ней запрещено под любым предлогом — смерть в её владениях неизбежна. Исследователи АМЕГА лишь собирают данные издалека, не решаясь тревожить то, что может таиться внизу.</p>
+
+                    </div>
+                </div>
+
+                <!-- Навигация слайдера -->
+                <div class="slider-navigation">
+                    <button class="slider-btn" id="prev-slide" disabled>
+                        ← Назад
+                    </button>
+
+                    <span class="slide-indicator">
+                        <span id="current-slide">1</span> / 2
+                    </span>
+
+                    <button class="slider-btn" id="next-slide">
+                        Вперёд →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Навигация между статьями -->
+            <div class="navigation-buttons">
+                <a href="shan_lu.html" class="nav-btn">
+                    ← Предыдущая планета
+                </a>
+                <a href="../index.html" class="nav-btn">
+                    📁 Архив планет
+                </a>
+                <a href="hayashi.html" class="nav-btn">
+                    Следующая планета →
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle-creature" id="theme-toggle-creature" title="Сменить тему">
+        <i class="fas fa-palette"></i>
+    </button>
+
+    <!-- Аудиоплеер для музыки планеты -->
+    <audio id="planet-music" loop>
+        <source src="../audio/theme_akra.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ПАНЕЛЬ ВЫБОРА ТЕМ -->
+    <div id="theme-panel-creature" class="theme-panel-creature">
+        <div class="theme-panel-header-creature">
+            <h3><i class="fas fa-universal-access"></i> Настройки темы</h3>
+            <button id="close-panel-creature" class="close-btn-creature" aria-label="Закрыть панель">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="theme-panel-content-creature">
+            <div class="theme-section-creature">
+                <h4><i class="fas fa-globe"></i> Выберите тему:</h4>
+                <div class="theme-grid-creature">
+                    <button class="theme-option-creature active" data-theme="amega" aria-label="Тема АМЕГА (базовая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #3498db, #2ecc71);"></div>
+                        <span>АМЕГА</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="okroma" aria-label="Тема Окромы (красная)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #D32F2F, #FF5252);"></div>
+                        <span>Окромы</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="plauero" aria-label="Тема Плауэро (оранжевая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #FFC996, #FF9800);"></div>
+                        <span>Плауэро</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="tarante" aria-label="Тема Таранте (зелёная)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #A0D8A2, #27ae60);"></div>
+                        <span>Таранте</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="shan-lu" aria-label="Тема Шань-Лу (жёлтая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #FFE466, #FFCA28);"></div>
+                        <span>Шань-Лу</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="akra" aria-label="Тема Акрары (голубая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #99E4FF, #1abc9c);"></div>
+                        <span>Акрары</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="hayashi" aria-label="Тема Хаяси (фиолетовая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #9B59B6, #6c5ce7);"></div>
+                        <span>Хаяси</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="shutyam" aria-label="Тема Шутьяма (коричневая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #AE7067, #8E554D);"></div>
+                        <span>Шутьяма</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="temeni" aria-label="Тема Темени (тёмно-серая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #202020, #9D59B2);"></div>
+                        <span>Темени</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="izgoika" aria-label="Тема Изгойка (лаймовая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #BAFF8F, #FFE466);"></div>
+                        <span>Изгойка</span>
+                    </button>
+                    <button class="theme-option-creature" data-theme="null-space" aria-label="Тема Нулевое пространство (чёрно-белая)">
+                        <div class="theme-preview-creature" style="background: linear-gradient(135deg, #000000, #FFFFFF);"></div>
+                        <span>Нулевое пространство</span>
+                    </button>
+                    <button class="theme-option-creature secret-theme-creature" data-theme="secret" aria-label="Секретная тема" style="display: none;">
+                        <div class="theme-preview-creature secret-preview-creature"></div>
+                        <span>???</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="volume-section-creature">
+                <h4><i class="fas fa-music"></i> Громкость:</h4>
+                <div class="volume-control-creature">
+                    <i class="fas fa-volume-mute volume-icon-creature"></i>
+                    <input type="range" id="volume-slider-creature" class="volume-slider-creature" min="0" max="100" value="50" aria-label="Регулятор громкости">
+                    <i class="fas fa-volume-up volume-icon-creature"></i>
+                    <span id="volume-value-creature" class="volume-value-creature">50%</span>
+                </div>
+                <div class="music-info-creature">
+                    <span id="current-track-creature">Музыка планеты: Окрома</span>
+                </div>
+            </div>
+
+            <div class="extra-controls-creature">
+                <button id="reset-theme-btn-creature" class="control-btn-creature">
+                    <i class="fas fa-undo"></i> Сбросить к базовой
+                </button>
+            </div>
+        </div>
+
+        <div class="theme-panel-footer-creature">
+            <small>Текущая вселенная: <span id="current-theme-name-creature">АМЕГА</span></small>
+        </div>
+    </div>
+
+    <!-- Оверлей для закрытия панели -->
+    <div id="panel-overlay-creature" class="panel-overlay-creature"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Страница планеты загружена');
+
+            // === СЛАЙДЕР (теперь 2 слайда) ===
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            const currentSlideIndicator = document.getElementById('current-slide');
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function updateSlider() {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[currentSlide].classList.add('active');
+                currentSlideIndicator.textContent = currentSlide + 1;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+            }
+
+            if (nextBtn && prevBtn) {
+                nextBtn.addEventListener('click', function () {
+                    if (currentSlide < totalSlides - 1) {
+                        currentSlide++;
+                        updateSlider();
+                    }
+                });
+
+                prevBtn.addEventListener('click', function () {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        updateSlider();
+                    }
+                });
+
+                updateSlider();
+            }
+
+            // === СВОРАЧИВАЕМЫЕ БЛОКИ ===
+            function setupCollapsible(headerId, contentId) {
+                const header = document.getElementById(headerId);
+                const content = document.getElementById(contentId);
+
+                if (header && content) {
+                    header.addEventListener('click', function () {
+                        content.classList.toggle('collapsed');
+                        header.classList.toggle('collapsed');
+                    });
+                }
+            }
+
+            setupCollapsible('biomes-header', 'biomes-content');
+            setupCollapsible('events-header', 'events-content');
+
+            // === МУЗЫКА ПЛАНЕТЫ (фиксированная, не меняется при смене темы) ===
+            const planetMusic = document.getElementById('planet-music');
+            const volumeSlider = document.getElementById('volume-slider-creature');
+            const volumeValue = document.getElementById('volume-value-creature');
+
+            if (planetMusic) {
+                const savedVolume = localStorage.getItem('site-volume') || '50';
+                planetMusic.volume = savedVolume / 100;
+
+                if (volumeSlider) {
+                    volumeSlider.value = savedVolume;
+                    if (volumeValue) volumeValue.textContent = savedVolume + '%';
+                }
+
+                document.addEventListener('click', function initMusic() {
+                    planetMusic.play().catch(e => console.log("Автовоспроизведение заблокировано"));
+                    document.removeEventListener('click', initMusic);
+                }, { once: true });
+            }
+
+            // === СИСТЕМА ТЕМ (без смены музыки) ===
+            const themeToggleBtn = document.getElementById('theme-toggle-creature');
+            const themePanel = document.getElementById('theme-panel-creature');
+            const closePanelBtn = document.getElementById('close-panel-creature');
+            const panelOverlay = document.getElementById('panel-overlay-creature');
+            const themeOptions = document.querySelectorAll('.theme-option-creature');
+            const currentThemeName = document.getElementById('current-theme-name-creature');
+            const resetThemeBtn = document.getElementById('reset-theme-btn-creature');
+            const secretThemeBtn = document.querySelector('.secret-theme-creature');
+            const nullSpaceThemeBtn = document.querySelector('.theme-option-creature[data-theme="null-space"]');
+
+            const themeNames = {
+                'amega': 'АМЕГА',
+                'okroma': 'Окромы',
+                'plauero': 'Плауэро',
+                'tarante': 'Таранте',
+                'shan-lu': 'Шань-Лу',
+                'akra': 'Акрары',
+                'hayashi': 'Хаяси',
+                'shutyam': 'Шутьяма',
+                'temeni': 'Темени',
+                'izgoika': 'Изгойка',
+                'null-space': 'Нулевое пространство',
+                'secret': '??? (Секретная)'
+            };
+
+            function openThemePanel() {
+                console.log('Открываем панель тем');
+                if (!themePanel) {
+                    console.error('Панель тем не найдена!');
+                    return;
+                }
+                themePanel.classList.add('active');
+                if (panelOverlay) panelOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                themePanel.style.right = '';
+            }
+
+            function closeThemePanel() {
+                console.log('Закрываем панель тем');
+                if (!themePanel) return;
+                themePanel.classList.remove('active');
+                if (panelOverlay) panelOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                themePanel.style.right = '-600px';
+            }
+
+            function applyTheme(themeName) {
+                console.log('Применяем тему:', themeName);
+                // Обновляем класс body (меняем только визуальное оформление, музыка не меняется)
+                document.body.className = '';
+                document.body.classList.add(`theme-${themeName}`);
+
+                // Обновляем активную кнопку темы
+                themeOptions.forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.theme === themeName) {
+                        option.classList.add('active');
+                    }
+                });
+
+                // Сохраняем в localStorage
+                localStorage.setItem('site-theme', themeName);
+
+                // Обновляем отображение названия темы
+                if (currentThemeName) {
+                    currentThemeName.textContent = themeNames[themeName] || themeName;
+                }
+
+                // Музыка НЕ меняется — остаётся музыка планеты Акрара
+            }
+
+            function loadUnlockedThemes() {
+                const unlockedThemes = JSON.parse(localStorage.getItem('unlocked-themes') || '[]');
+                console.log('Разблокированные темы:', unlockedThemes);
+
+                // Скрываем все секретные темы по умолчанию
+                if (nullSpaceThemeBtn) nullSpaceThemeBtn.style.display = 'none';
+                if (secretThemeBtn) secretThemeBtn.style.display = 'none';
+
+                // Показываем только разблокированные
+                unlockedThemes.forEach(themeName => {
+                    const themeButton = document.querySelector(`.theme-option-creature[data-theme="${themeName}"]`);
+                    if (themeButton) {
+                        console.log('Показываем тему:', themeName);
+                        themeButton.style.display = 'block';
+                    }
+                });
+            }
+
+            function unlockSecretTheme(themeName) {
+                const themeButton = document.querySelector(`.theme-option-creature[data-theme="${themeName}"]`);
+                if (themeButton) {
+                    themeButton.style.display = 'block';
+
+                    const unlockedThemes = JSON.parse(localStorage.getItem('unlocked-themes') || '[]');
+                    if (!unlockedThemes.includes(themeName)) {
+                        unlockedThemes.push(themeName);
+                        localStorage.setItem('unlocked-themes', JSON.stringify(unlockedThemes));
+                    }
+
+                    showNotification(`Секретная тема "${themeNames[themeName]}" разблокирована!`);
+                }
+            }
+
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.textContent = message;
+                notification.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: linear-gradient(135deg, var(--color-primary), var(--color-border));
+                            color: var(--color-background);
+                            padding: 12px 20px;
+                            border-radius: 8px;
+                            z-index: 10001;
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                            animation: notificationFade 3s ease-in-out;
+                            font-weight: bold;
+                            border: 2px solid var(--color-primary);
+                        `;
+
+                const style = document.createElement('style');
+                style.textContent = `
+                            @keyframes notificationFade {
+                                0% { opacity: 0; transform: translateY(-20px); }
+                                10% { opacity: 1; transform: translateY(0); }
+                                90% { opacity: 1; transform: translateY(0); }
+                                100% { opacity: 0; transform: translateY(-20px); }
+                            }
+                        `;
+
+                document.head.appendChild(style);
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    if (document.body.contains(notification)) document.body.removeChild(notification);
+                    if (document.head.contains(style)) document.head.removeChild(style);
+                }, 3000);
+            }
+
+            function checkSecretCodes() {
+                const secretThemes = {
+                    "НОЛЬ": "null-space",
+                    "РАДУГА": "secret",
+                    "ЧЕРНАЯ ДЫРА": "null-space",
+                    "РАДУЖНАЯ": "secret",
+                    "ZERO": "null-space",
+                    "RAINBOW": "secret"
+                };
+
+                Object.keys(secretThemes).forEach(code => {
+                    const lowerCode = code.toLowerCase();
+                    const storedCodes = JSON.parse(localStorage.getItem('entered-secret-codes') || '[]');
+                    if (storedCodes.includes(lowerCode)) {
+                        unlockSecretTheme(secretThemes[code]);
+                    }
+                });
+            }
+
+            function loadSavedTheme() {
+                console.log('Загружаем сохранённую тему...');
+                const savedTheme = localStorage.getItem('site-theme') || 'amega';
+                const unlockedThemes = JSON.parse(localStorage.getItem('unlocked-themes') || '[]');
+
+                // Проверяем, разблокирована ли тема перед применением
+                if (savedTheme === 'null-space' && !unlockedThemes.includes('null-space')) {
+                    console.log('Тема null-space не разблокирована, применяем amega');
+                    applyTheme('amega');
+                    localStorage.setItem('site-theme', 'amega');
+                } else if (savedTheme === 'secret' && !unlockedThemes.includes('secret')) {
+                    console.log('Тема secret не разблокирована, применяем amega');
+                    applyTheme('amega');
+                    localStorage.setItem('site-theme', 'amega');
+                } else {
+                    console.log('Применяем сохранённую тему:', savedTheme);
+                    applyTheme(savedTheme);
+                }
+            }
+
+            // === ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ ТЕМ ===
+            function initThemeSystem() {
+                console.log('Инициализируем систему тем...');
+
+                if (!themeToggleBtn || !themePanel) {
+                    console.error('Не найдены основные элементы системы тем!');
+                    return;
+                }
+
+                themeToggleBtn.addEventListener('click', openThemePanel);
+                if (closePanelBtn) {
+                    closePanelBtn.addEventListener('click', closeThemePanel);
+                }
+                if (panelOverlay) {
+                    panelOverlay.addEventListener('click', closeThemePanel);
+                }
+
+                themeOptions.forEach(option => {
+                    option.addEventListener('click', function () {
+                        if (this.style.display !== 'none') {
+                            const themeName = this.dataset.theme;
+                            applyTheme(themeName);
+                            closeThemePanel();
+                        }
+                    });
+                });
+
+                // Управление громкостью
+                if (volumeSlider) {
+                    volumeSlider.addEventListener('input', function () {
+                        const volume = this.value;
+                        if (volumeValue) volumeValue.textContent = `${volume}%`;
+
+                        if (planetMusic) {
+                            planetMusic.volume = volume / 100;
+                        }
+
+                        localStorage.setItem('site-volume', volume);
+                    });
+                }
+
+                if (resetThemeBtn) {
+                    resetThemeBtn.addEventListener('click', function () {
+                        applyTheme('amega');
+                    });
+                }
+
+                loadUnlockedThemes();
+                checkSecretCodes();
+                loadSavedTheme();
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                        const themes = ['amega', 'okroma', 'plauero', 'tarante', 'shan-lu', 'akra', 'hayashi', 'shutyam', 'temeni', 'izgoika'];
+                        const currentTheme = document.body.className.replace('theme-', '');
+                        let currentIndex = themes.indexOf(currentTheme);
+                        if (currentIndex === -1) currentIndex = 0;
+                        const nextIndex = (currentIndex + 1) % themes.length;
+                        applyTheme(themes[nextIndex]);
+                    }
+                });
+            }
+
+            initThemeSystem();
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && themePanel && themePanel.classList.contains('active')) {
+                    closeThemePanel();
+                }
+            });
+
+            if (themePanel) {
+                themePanel.style.right = '-600px';
+            }
+
+            console.log('Скрипт для страницы планеты успешно загружен! Музыка планеты Акрара фиксирована.');
+        });
+    </script>
+</body>
+</html>
