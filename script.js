@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Секретные коды и соответствующие страницы (старые, для редиректов)
     const secretCodes = {
-        "ШАЙГАЙ": "articles/creature_0.html",
+        "ШАЙГАЙ": "https://shyguyzf.github.io/TBoSHW1/articles/creature_0.html",
         // Добавляем коды для тем
         "ПУСТОТА": "null-space",
         "23031992": "secret"
