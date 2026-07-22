@@ -3331,3 +3331,79 @@ a {
         opacity: 0.85;
     }
 }
+
+/* СТИЛИ ДЛЯ ОКОШКА ДАТЫ СОЗДАНИЯ СТАТЬИ */
+.article-date-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0 2rem 0;
+    padding: 0 1rem;
+}
+
+.article-date-box {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    background: var(--color-hover);
+    padding: 0.8rem 2rem;
+    border-radius: 12px;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 20px var(--color-glow);
+    
+    font-size: 1.1rem;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+    
+    /* Делаем блок "умным" — подстраивается под ширину */
+    width: auto;
+    max-width: 100%;
+}
+
+.article-date-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px var(--color-glow);
+}
+
+.date-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.date-label {
+    color: var(--color-text-light);
+    font-weight: normal;
+}
+
+.date-value {
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    padding: 0.2rem 0.8rem;
+    background: rgba(var(--color-primary-rgb, 100, 255, 218), 0.1);
+    border-radius: 6px;
+    border: 1px solid var(--color-border-light);
+}
+
+@media (max-width: 480px) {
+    .article-date-box {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+        gap: 0.5rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .date-icon {
+        font-size: 1.2rem;
+    }
+
+    .date-value {
+        font-size: 1rem;
+        padding: 0.1rem 0.6rem;
+    }
+}
