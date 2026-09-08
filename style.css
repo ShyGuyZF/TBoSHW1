@@ -3407,3 +3407,69 @@ a {
         padding: 0.1rem 0.6rem;
     }
 }
+
+.continue-reading{
+    position:absolute;
+    top:20px;
+    right:20px;
+    z-index:500;
+}
+
+#continue-reading-btn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:12px 18px;
+
+    background:var(--color-surface-light);
+
+    border:2px solid var(--color-primary);
+
+    border-radius:12px;
+
+    color:var(--color-text);
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    backdrop-filter:blur(8px);
+
+    box-shadow:0 0 15px var(--color-glow);
+}
+
+#continue-reading-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 25px var(--color-glow);
+
+    background:var(--color-primary);
+
+    color:var(--color-secondary);
+}
+
+.continue-icon{
+
+    width:32px;
+    height:32px;
+}
+
+.continue-text{
+
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.continue-title{
+
+    font-weight:bold;
+}
+
+.continue-article{
+
+    font-size:12px;
+    opacity:.7;
+}
