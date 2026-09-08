@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const galleryBtn = document.getElementById('gallery-btn');
 
+    const continueBtn = document.getElementById("continue-reading-btn");
+    const continueText = document.querySelector(".continue-article");
+
     const secretNotes = {
         "ГРИГОРИЙ": {
             title: "Записка для Григория.",
@@ -1428,6 +1431,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function loadLastArticle(){
+
+    const saved = localStorage.getItem("lastArticle");
+
+    if(!saved) return;
+
+    const article = JSON.parse(saved);
+
+    continueText.textContent = article.title;
+
+    }
+
+    function initContinueReading(){
+
+    loadLastArticle();
+
+    continueBtn.addEventListener("click", ()=>{
+
+        const saved = localStorage.getItem("lastArticle");
+
+        if(!saved){
+
+            alert("Нет сохранённой статьи.");
+
+            return;
+
+        }
+
+        const article = JSON.parse(saved);
+
+        window.location.href = article.url;
+
+    });
+
+}
+    
     // Инициализация при загрузке страницы
     document.addEventListener('DOMContentLoaded', function () {
         updateReleaseDate();
@@ -1447,6 +1486,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    
+
     // Инициализируем все функции при загрузке
     initPagination();
     initFaunaPagination();
@@ -1455,6 +1496,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initConceptsFunctions();
     initSecretFunctions();
     initThemeSystem();
+    initContinueReading();
 
 });
 
