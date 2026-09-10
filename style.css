@@ -3474,3 +3474,50 @@ a {
     opacity:.7;
 }
 
+/* Телефон */
+@media (max-width: 768px) {
+
+    /* Скрываем старую кнопку */
+    .continue-reading {
+        display: none;
+    }
+
+    /* Показываем новую */
+    .mobile-continue-reading {
+        display: flex;
+
+        position: fixed;
+        top: 15px;
+        left: 15px;
+
+        width: 56px;
+        height: 56px;
+
+        justify-content: center;
+        align-items: center;
+
+        border: 2px solid var(--color-primary);
+        border-radius: 12px;
+
+        background: var(--color-surface-light);
+        backdrop-filter: blur(8px);
+
+        box-shadow: 0 0 15px var(--color-glow);
+
+        z-index: 9999;
+
+        cursor: pointer;
+
+        transition: .25s;
+    }
+
+    .mobile-continue-reading:active {
+        transform: scale(.95);
+    }
+
+    .mobile-continue-reading img {
+        width: 30px;
+        height: 30px;
+    }
+
+}
