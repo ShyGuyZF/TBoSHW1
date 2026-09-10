@@ -925,7 +925,7 @@
                 <div class="article-date-wrapper">
                   <div class="article-date-box">
                    <span class="date-label">Дата создания статьи:</span>
-                   <span class="date-value">ХХ.ХХ.ХХХХ</span>
+                   <span class="date-value">01.10.2034</span>
                  </div>
                 </div>
 
@@ -1558,6 +1558,25 @@
 
             console.log('Скрипт успешно загружен!');
         });
+
+        // ================================
+// Сохранение последней открытой статьи
+// ================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const articleData = {
+        title: document.title,
+        url: window.location.href,
+        path: window.location.pathname
+    };
+
+    localStorage.setItem(
+        "lastArticle",
+        JSON.stringify(articleData)
+    );
+
+});
 
 
     </script>
