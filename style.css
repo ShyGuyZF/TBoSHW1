@@ -3474,25 +3474,3 @@ a {
     opacity:.7;
 }
 
-/* ============================= */
-/* КНОПКА "ПРОДОЛЖИТЬ ЧТЕНИЕ" */
-/* Мобильная версия */
-/* ============================= */
-
-@media (max-width: 768px) {
-
-    .continue-reading {
-        position: absolute;
-        top: -55px;          /* Подбирается экспериментально */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        z-index: 9999999;
-    }
-
-    #continue-reading-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-}
