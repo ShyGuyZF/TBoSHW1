@@ -3482,46 +3482,17 @@ a {
 @media (max-width: 768px) {
 
     .continue-reading {
-        position: static;
-        margin: 15px 0 20px;
-        width: 100%;
+        position: absolute;
+        top: -55px;          /* Подбирается экспериментально */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        z-index: 1000;
     }
 
     #continue-reading-btn {
         width: 100%;
-        padding: 14px 16px;
-
-        display: flex;
-        align-items: center;
-        gap: 12px;
-
-        border-radius: 12px;
-    }
-
-    .continue-icon {
-        width: 28px;
-        height: 28px;
-        flex-shrink: 0;
-    }
-
-    .continue-text {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .continue-title {
-        font-size: 16px;
-        font-weight: bold;
-        line-height: 1.2;
-    }
-
-    .continue-article {
-        margin-top: 3px;
-        font-size: 13px;
-        opacity: .75;
-        word-break: break-word;
+        justify-content: center;
     }
 
 }
