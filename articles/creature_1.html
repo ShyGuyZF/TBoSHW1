@@ -1560,23 +1560,23 @@
         });
 
         // ================================
-// Сохранение последней открытой статьи
-// ================================
+        // Сохранение последней открытой статьи
+        // ================================
 
-document.addEventListener("DOMContentLoaded", () => {
+         document.addEventListener("DOMContentLoaded", () => {
 
-    const articleData = {
-        title: document.title,
-        url: window.location.href,
+         const articleData = {
+          title: document.title,
+          url: window.location.href,
         path: window.location.pathname
-    };
+        };
 
-    localStorage.setItem(
+        localStorage.setItem(
         "lastArticle",
         JSON.stringify(articleData)
-    );
+        );
 
-});
+        });
 
 
     </script>
